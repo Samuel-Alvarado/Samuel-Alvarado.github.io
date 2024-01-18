@@ -25,7 +25,6 @@
     <p>Para explorar más, visita mi <a href="https://github.com/Samuel-Alvarado.github.io" target="_blank">perfil de GitHub</a>.
     
     <h1>Number Guessing Game</h1>
-
     <p>Press the button to start the game:</p>
 
     <button onclick="startGame()">Start Game</button>
@@ -43,20 +42,18 @@
 
             document.getElementById("min-limit").innerText = minLimit;
             document.getElementById("max-limit").innerText = maxLimit;
-            
-          Expand Down      
-          Expand Up
-    
-    @@ -73,6 +71,7 @@ <h1>Number Guessing Game</h1>
-  
+
             function makeGuess() {
                 if (min <= max) {
                     guess = Math.floor(Math.random() * (max - min + 1) + min);
                     alert("My guess is: " + guess);
+
                     let userResponse = prompt("Is it correct? (Type 'correct', 'up', or 'down')");
+
                     while (userResponse !== "correct" && userResponse !== "up" && userResponse !== "down") {
                         userResponse = prompt("Invalid input. Type 'correct', 'up', or 'down'.");
                     }
+
                     if (userResponse === "up") {
                         min = guess + 1;
                         if (min >= maxLimit) {
