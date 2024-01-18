@@ -24,7 +24,7 @@
     <p>¡Hola, visitante! Gracias por pasar por mi página. Aquí encontrarás información interesante sobre mis proyectos y contribuciones en GitHub.</p>
     <p>Para explorar más, visita mi <a href="https://github.com/Samuel-Alvarado.github.io" target="_blank">perfil de GitHub</a>.
 
-      <h1>Number Guessing Game</h1>
+     <h1>Number Guessing Game</h1>
     <p>Press the button to start the game:</p>
 
     <button onclick="startGame()">Start Game</button>
@@ -39,16 +39,13 @@
 
             // Create elements dynamically
             let instructions = document.createElement("p");
-            instructions.innerHTML = "Think of a number between <span id='min-limit'></span> and <span id='max-limit'></span>.";
+            instructions.innerHTML = `Think of a number between ${minLimit} and ${maxLimit}.`;
             document.body.appendChild(instructions);
 
             let guessButton = document.createElement("button");
             guessButton.innerHTML = "Generate Guess";
             guessButton.onclick = makeGuess;
             document.body.appendChild(guessButton);
-
-            document.getElementById("min-limit").innerText = minLimit;
-            document.getElementById("max-limit").innerText = maxLimit;
 
             function makeGuess() {
                 if (min <= max) {
@@ -79,6 +76,6 @@
                 }
             }
         }
-    </script>
+    </script> 
 </body>
 </html>
