@@ -80,7 +80,16 @@
 
         // Start the guessing game
         makeGuess();
-    }
+    } 
+
+        function toggleSubpage() {
+            var subpage = document.querySelector('.subpage');
+            if (subpage.style.display === 'none') {
+                subpage.style.display = 'block'; // Show the subpage content
+            } else {
+                subpage.style.display = 'none'; // Hide the subpage content
+            }
+        }
 </script>
 </body>
 </html>
