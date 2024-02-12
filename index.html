@@ -77,8 +77,17 @@
     
   <script>
     function startGame() {
-        let minLimit = parseInt(prompt("Enter the minimum range: "));
-        let maxLimit = parseInt(prompt("Enter the maximum range: "));
+  let minLimit = parseInt(prompt("Enter the minimum range: "));
+    // Check if the user clicked cancel
+    if (minLimit === null) {
+        return; // Stop the game if the user clicked cancel
+    }
+    
+    let maxLimit = parseInt(prompt("Enter the maximum range: "));
+    // Check if the user clicked cancel
+    if (maxLimit === null) {
+        return; // Stop the game if the user clicked cancel
+    }
         let min = minLimit;
         let max = maxLimit;
         let guess = 0;
