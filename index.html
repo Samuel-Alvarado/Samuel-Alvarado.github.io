@@ -66,6 +66,7 @@
                 } else {
                     alert("I guessed it! The number is: " + guess);
                     correctGuess = true; // Set correctGuess to true when the correct answer is found
+                    instructions.remove(); // Remove the range instructions after the correct guess
                 }
 
                 // Make next guess automatically if correct answer is not found
