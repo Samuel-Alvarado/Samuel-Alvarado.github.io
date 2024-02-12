@@ -28,6 +28,17 @@
     <p>Press the button to start the game:</p>
 
     <button onclick="startGame()">Start Game</button>
+    
+     <!-- Button to toggle subpage content -->
+    <button onclick="toggleSubpage()">Toggle Calculator</button>
+
+    <!-- Subpage content for calculator -->
+    <div class="subpage" id="calculator">
+        <!-- Calculator content goes here -->
+        <h2>Calculator</h2>
+        <!-- Include your calculator HTML content here -->
+    </div>
+    
   <script>
     function startGame() {
         let minLimit = parseInt(prompt("Enter the minimum range: "));
