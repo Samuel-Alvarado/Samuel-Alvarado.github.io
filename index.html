@@ -126,13 +126,12 @@
         makeGuess();
     } 
 
-          // Function to toggle the visibility of the calculator subpage
-        function toggleSubpage() {
-            var subpage = document.getElementById('calculator'); // Get the subpage by ID
-            if (subpage.style.display === 'none') {
-                subpage.style.display = 'block'; // Show the subpage content
+          function toggleSubpage() {
+            var calculator = document.getElementById('calculator');
+            if (calculator.style.display === 'none') {
+                calculator.style.display = 'block'; // Show the calculator content
             } else {
-                subpage.style.display = 'none'; // Hide the subpage content
+                calculator.style.display = 'none'; // Hide the calculator content
             }
         }
 </script>
