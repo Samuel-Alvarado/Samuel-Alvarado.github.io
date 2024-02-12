@@ -29,14 +29,14 @@
 
     <button onclick="startGame()">Start Game</button>
 </a>
-
-   <script>
+  <script>
     function startGame() {
         let minLimit = parseInt(prompt("Enter the minimum range: "));
         let maxLimit = parseInt(prompt("Enter the maximum range: "));
         let min = minLimit;
         let max = maxLimit;
         let guess = 0;
+        let correctGuess = false; // Variable to track if the correct guess is made
 
         // Create elements dynamically
         let instructions = document.createElement("p");
@@ -44,7 +44,7 @@
         document.body.appendChild(instructions);
 
         function makeGuess() {
-            if (min <= max) {
+            if (min <= max && !correctGuess) {
                 guess = Math.floor(Math.random() * (max - min + 1) + min);
                 alert("My guess is: " + guess);
 
@@ -66,9 +66,13 @@
                     }
                 } else {
                     alert("I guessed it! The number is: " + guess);
+                    correctGuess = true; // Set correctGuess to true when the correct answer is found
                 }
-                // Make next guess automatically
-                makeGuess();
+
+                // Make next guess automatically if correct answer is not found
+                if (!correctGuess) {
+                    makeGuess();
+                }
             } else {
                 alert("Invalid action. Please try again.");
             }
