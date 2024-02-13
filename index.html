@@ -28,9 +28,9 @@
     <p>Para explorar más, visita mi <a href="https://github.com/Samuel-Alvarado/Samuel-Alvarado.github.io" target="_blank">perfil de GitHub</a>.
 
 <!-- Number Guessing Game section -->
-     <h1>Number Guessing Game</h1>
-    <p>Press the button to start the game:</p>
-    <button onclick="startGame()">Start Game</button>
+<h1>Number Guessing Game</h1>
+<p>Press the button to start the game:</p>
+<button onclick="startGame()">Start Game</button>
     
 
 <!-- Calculator section -->
@@ -38,8 +38,9 @@
 <div class="subpage" id="calculator">
     <!-- Buttons for different types of probability calculations -->
     <button onclick="calculateBinomial()">Binomial Probability</button>
-    <button onclick="calculatePoisson()">Poisson Probability</button>
+    <button onclick="togglePoisson()">Poisson Probability</button>
 </div>
+
 <!-- Form for binomial probability calculation -->
 <form id="binomialForm">
     <label for="n">Enter the value of n:</label>
@@ -52,6 +53,17 @@
     <input type="number" id="p" name="p" step="0.01"><br><br>
 
     <button type="button" onclick="calculateBinomial()">Calculate</button>
+</form>
+
+<!-- Form for Poisson probability calculation -->
+<form id="poissonForm" class="subpage">
+    <label for="k_poisson">Enter the value of k:</label>
+    <input type="number" id="k_poisson" name="k_poisson"><br><br>
+
+    <label for="lambda">Enter the value of λ:</label>
+    <input type="number" id="lambda" name="lambda"><br><br>
+
+    <button type="button" onclick="calculatePoisson()">Calculate</button>
 </form>
 
 <!-- Display area for the result -->
@@ -80,7 +92,7 @@
 
     // Function for Poisson probability calculation
     function calculatePoisson() {
-        var k = parseInt(document.getElementById('k').value);
+        var k = parseInt(document.getElementById('k_poisson').value);
         var lambda = parseInt(document.getElementById('lambda').value);
         
         // Calculate the Poisson distribution
@@ -88,6 +100,16 @@
         
         // Display the result
         document.getElementById('result').innerText = 'Result: ' + result.toFixed(5);
+    }
+
+    // Function to toggle the visibility of the Poisson probability calculator
+    function togglePoisson() {
+        var poissonForm = document.getElementById('poissonForm');
+        if (poissonForm.classList.contains('subpage')) {
+            poissonForm.classList.remove('subpage');
+        } else {
+            poissonForm.classList.add('subpage');
+        }
     }
 </script>
     
