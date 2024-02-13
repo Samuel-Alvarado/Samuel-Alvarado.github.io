@@ -140,12 +140,12 @@
 
           function toggleSubpage() {
     var calculator = document.getElementById('calculator');
-    if (calculator.style.display === 'none') {
-        calculator.style.display = ''; // Remove inline style
+    if (calculator.style.display === 'none' || calculator.style.display === '') {
+        calculator.style.display = 'block'; // Show the calculator content
     } else {
         calculator.style.display = 'none'; // Hide the calculator content
-            }
-        }
+    }
+}
 </script>
 </body>
 </html>
