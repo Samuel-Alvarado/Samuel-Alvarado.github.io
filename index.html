@@ -27,163 +27,251 @@
     <p>¡Hola, visitante! Gracias por pasar por mi página. Aquí encontrarás información interesante sobre mis proyectos y contribuciones en GitHub.</p>
     <p>Para explorar más, visita mi <a href="https://github.com/Samuel-Alvarado/Samuel-Alvarado.github.io" target="_blank">perfil de GitHub</a>.
 
-<!-- Number Guessing Game section -->
-<h1>Number Guessing Game</h1>
-<p>Press the button to start the game:</p>
-<button onclick="startGame()">Start Game</button>
-    
+    <!-- Number Guessing Game section -->
+    <h1>Number Guessing Game</h1>
+    <p>Press the button to start the game:</p>
+    <button onclick="startGame()">Start Game</button>
 
-<!-- Calculator section -->
-<h2>Calculator</h2> <!-- Title for the Calculator section -->
-<div class="subpage" id="calculator">
-    <!-- Buttons for different types of probability calculations -->
-    <button onclick="calculateBinomial()">Binomial Probability</button>
-    <button onclick="togglePoisson()">Poisson Probability</button>
-</div>
+    <!-- Calculator section -->
+    <h2>Calculator</h2> <!-- Title for the Calculator section -->
+    <div class="subpage" id="calculator">
+        <!-- Buttons for different types of probability calculations -->
+        <button onclick="toggleBinomial()">Binomial Probability</button>
+        <button onclick="togglePoisson()">Poisson Probability</button>
+    </div>
 
-<!-- Form for binomial probability calculation -->
-<form id="binomialForm">
-    <label for="n">Enter the value of n:</label>
-    <input type="number" id="n" name="n"><br><br>
+    <!-- Binomial Calculator form -->
+    <form id="binomialForm" class="subpage">
+        <label for="n">Enter the value of n:</label>
+        <input type="number" id="n_binomial" name="n_binomial"><br><br>
 
-    <label for="k">Enter the value of k:</label>
-    <input type="number" id="k" name="k"><br><br>
+        <label for="k">Enter the value of k:</label>
+        <input type="number" id="k_binomial" name="k_binomial"><br><br>
 
-    <label for="p">Enter the value of p (in decimals):</label>
-    <input type="number" id="p" name="p" step="0.01"><br><br>
+        <label for="p">Enter the value of p (in decimals):</label>
+        <input type="number" id="p_binomial" name="p_binomial" step="0.01"><br><br>
 
-    <button type="button" onclick="calculateBinomial()">Calculate</button>
-</form>
+        <button type="button" onclick="calculateBinomial()">Calculate</button>
+    </form>
 
-<!-- Form for Poisson probability calculation -->
-<form id="poissonForm" class="subpage">
-    <label for="k_poisson">Enter the value of k:</label>
-    <input type="number" id="k_poisson" name="k_poisson"><br><br>
+    <!-- Binomial Calculator form (Maximum) -->
+    <form id="binomialFormMax" class="subpage">
+        <label for="n_max">Enter the value of n:</label>
+        <input type="number" id="n_max" name="n_max"><br><br>
 
-    <label for="lambda">Enter the value of λ:</label>
-    <input type="number" id="lambda" name="lambda"><br><br>
+        <label for="k_max">Enter the maximum value of k:</label>
+        <input type="number" id="k_max" name="k_max"><br><br>
 
-    <button type="button" onclick="calculatePoisson()">Calculate</button>
-</form>
+        <label for="p_max">Enter the value of p (in decimals):</label>
+        <input type="number" id="p_max" name="p_max" step="0.01"><br><br>
 
-<!-- Display area for the result -->
-<div id="result"></div>
+        <button type="button" onclick="calculateBinomialMax()">Calculate</button>
+    </form>
 
-<!-- JavaScript code for binomial probability calculation -->
-<script>
-    function calculateBinomial() {
-        var n = parseInt(document.getElementById('n').value);
-        var k = parseInt(document.getElementById('k').value);
-        var p = parseFloat(document.getElementById('p').value);
+    <!-- Binomial Calculator form (Range) -->
+    <form id="binomialFormRange" class="subpage">
+        <label for="n_range">Enter the value of n:</label>
+        <input type="number" id="n_range" name="n_range"><br><br>
 
-        var combination = factorial(n) / (factorial(k) * factorial(n - k));
-        var result = combination * Math.pow(p, k) * Math.pow((1 - p), (n - k));
-        document.getElementById('result').innerText = 'Result: ' + result.toFixed(4);
-    }
+        <label for="a_range">Enter the minimum value of k:</label>
+        <input type="number" id="a_range" name="a_range"><br><br>
 
-    function factorial(num) {
-        if (num === 0 || num === 1)
-            return 1;
-        for (var i = num - 1; i >= 1; i--) {
-            num *= i;
-        }
-        return num;
-    }
+        <label for="b_range">Enter the maximum value of k:</label>
+        <input type="number" id="b_range" name="b_range"><br><br>
 
-    // Function for Poisson probability calculation
-    function calculatePoisson() {
-        var k = parseInt(document.getElementById('k_poisson').value);
-        var lambda = parseInt(document.getElementById('lambda').value);
-        
-        // Calculate the Poisson distribution
-        var result = Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k);
-        
-        // Display the result
-        document.getElementById('result').innerText = 'Result: ' + result.toFixed(5);
-    }
+        <label for="p_range">Enter the value of p (in decimals):</label>
+        <input type="number" id="p_range" name="p_range" step="0.01"><br><br>
 
-    // Function to toggle the visibility of the Poisson probability calculator
-    function togglePoisson() {
-        var poissonForm = document.getElementById('poissonForm');
-        if (poissonForm.classList.contains('subpage')) {
-            poissonForm.classList.remove('subpage');
-        } else {
-            poissonForm.classList.add('subpage');
-        }
-    }
-</script>
-    
-<script>
-    function startGame() {
-        let minLimit = parseInt(prompt("Enter the minimum range: "));
-        // Check if the user clicked cancel
-        if (minLimit === null) {
-            return; // Stop the game if the user clicked cancel
-        }
-        
-        let maxLimit = parseInt(prompt("Enter the maximum range: "));
-        // Check if the user clicked cancel
-        if (maxLimit === null) {
-            return; // Stop the game if the user clicked cancel
-        }
-        let min = minLimit;
-        let max = maxLimit;
-        let guess = 0;
-        let correctGuess = false; // Variable to track if the correct guess is made
+        <button type="button" onclick="calculateBinomialRange()">Calculate</button>
+    </form>
 
-        // Create elements dynamically
-        let instructions = document.createElement("p");
-        instructions.innerHTML = `Think of a number between ${minLimit} and ${maxLimit}.`;
-        document.body.appendChild(instructions);
+    <!-- Binomial Calculator form (At Least) -->
+    <form id="binomialFormAtLeast" class="subpage">
+        <label for="n_least">Enter the value of n:</label>
+        <input type="number" id="n_least" name="n_least"><br><br>
 
-        function makeGuess() {
-            if (min <= max && !correctGuess) {
-                guess = Math.floor(Math.random() * (max - min + 1) + min);
-                alert("My guess is: " + guess);
+        <label for="k_least">Enter the minimum value of k:</label>
+        <input type="number" id="k_least" name="k_least"><br><br>
 
-                let userResponse = prompt("Is it correct? (Type 'correct', 'up', or 'down')");
+        <label for="p_least">Enter the value of p (in decimals):</label>
+        <input type="number" id="p_least" name="p_least" step="0.01"><br><br>
 
-                while (userResponse !== "correct" && userResponse !== "up" && userResponse !== "down") {
-                    userResponse = prompt("Invalid input. Type 'correct', 'up', or 'down'.");
-                }
+        <button type="button" onclick="calculateBinomialAtLeast()">Calculate</button>
+    </form>
 
-                if (userResponse === "up") {
-                    min = guess + 1;
-                    if (min >= maxLimit) {
-                        min = maxLimit;
-                    }
-                } else if (userResponse === "down") {
-                    max = guess - 1;
-                    if (max <= minLimit) {
-                        max = minLimit;
-                    }
-                } else {
-                    alert("I guessed it! The number is: " + guess);
-                    correctGuess = true; // Set correctGuess to true when the correct answer is found
-                    instructions.remove(); // Remove the range instructions after the correct guess
-                }
+    <!-- Poisson Calculator form -->
+    <form id="poissonForm" class="subpage">
+        <label for="k_poisson">Enter the value of k:</label>
+        <input type="number" id="k_poisson" name="k_poisson"><br><br>
 
-                // Make next guess automatically if correct answer is not found
-                if (!correctGuess) {
-                    makeGuess();
-                }
-            } else {
-                alert("Invalid action. Please try again.");
+        <label for="lambda_poisson">Enter the value of λ:</label>
+        <input type="number" id="lambda_poisson" name="lambda_poisson"><br><br>
+
+        <button type="button" onclick="calculatePoisson()">Calculate</button>
+    </form>
+
+    <!-- Poisson Calculator form (Maximum) -->
+    <form id="poissonFormMax" class="subpage">
+        <label for="k_poisson_max">Enter the value of k:</label>
+        <input type="number" id="k_poisson_max" name="k_poisson_max"><br><br>
+
+        <label for="lambda_poisson_max">Enter the value of λ:</label>
+        <input type="number" id="lambda_poisson_max" name="lambda_poisson_max"><br><br>
+
+        <button type="button" onclick="calculatePoissonMax()">Calculate</button>
+    </form>
+
+    <!-- Poisson Calculator form (Range) -->
+    <form id="poissonFormRange" class="subpage">
+        <label for="a_poisson_range">Enter the minimum value of k:</label>
+        <input type="number" id="a_poisson_range" name="a_poisson_range"><br><br>
+
+        <label for="b_poisson_range">Enter the maximum value of k:</label>
+        <input type="number" id="b_poisson_range" name="b_poisson_range"><br><br>
+
+        <label for="lambda_poisson_range">Enter the value of λ:</label>
+        <input type="number" id="lambda_poisson_range" name="lambda_poisson_range"><br><br>
+
+        <button type="button" onclick="calculatePoissonRange()">Calculate</button>
+    </form>
+
+    <!-- Poisson Calculator form (At Least) -->
+    <form id="poissonFormAtLeast" class="subpage">
+        <label for="k_poisson_least">Enter the minimum value of k:</label>
+        <input type="number" id="k_poisson_least" name="k_poisson_least"><br><br>
+
+        <label for="lambda_poisson_least">Enter the value of λ:</label>
+        <input type="number" id="lambda_poisson_least" name="lambda_poisson_least"><br><br>
+
+        <button type="button" onclick="calculatePoissonAtLeast()">Calculate</button>
+    </form>
+
+    <!-- Display area for the result -->
+    <div id="result"></div>
+
+    <!-- JavaScript code for binomial and Poisson probability calculation -->
+    <script>
+        // Function to toggle the visibility of the Binomial probability calculator
+        function toggleBinomial() {
+            var binomialForm = document.getElementById('binomialForm');
+            var poissonForm = document.getElementById('poissonForm');
+            if (binomialForm.classList.contains('subpage')) {
+                binomialForm.classList.remove('subpage');
+                poissonForm.classList.add('subpage');
             }
         }
 
-        // Start the guessing game
-        makeGuess();
-    } 
-
-    function toggleSubpage() {
-        var calculator = document.getElementById('calculator');
-        if (calculator.style.display === 'none' || calculator.style.display === '') {
-            calculator.style.display = 'block'; // Show the calculator content
-        } else {
-            calculator.style.display = 'none'; // Hide the calculator content
+        // Function to toggle the visibility of the Poisson probability calculator
+        function togglePoisson() {
+            var binomialForm = document.getElementById('binomialForm');
+            var poissonForm = document.getElementById('poissonForm');
+            if (poissonForm.classList.contains('subpage')) {
+                poissonForm.classList.remove('subpage');
+                binomialForm.classList.add('subpage');
+            }
         }
-    }
-</script>
+
+        // Function for binomial probability calculation
+        function calculateBinomial() {
+            var n = parseInt(document.getElementById('n_binomial').value);
+            var k = parseInt(document.getElementById('k_binomial').value);
+            var p = parseFloat(document.getElementById('p_binomial').value);
+
+            var combination = factorial(n) / (factorial(k) * factorial(n - k));
+            var result = combination * Math.pow(p, k) * Math.pow((1 - p), (n - k));
+            document.getElementById('result').innerText = 'Binomial Result: ' + result.toFixed(4);
+        }
+
+        // Function for Poisson probability calculation
+        function calculatePoisson() {
+            var k = parseInt(document.getElementById('k_poisson').value);
+            var lambda = parseInt(document.getElementById('lambda_poisson').value);
+
+            var cumulative_probability = 0;
+            for (var i = 0; i < k; i++) {
+                cumulative_probability += (Math.exp(-lambda) * Math.pow(lambda, i)) / factorial(i);
+            }
+            var result = round(1 - cumulative_probability, 5);
+            document.getElementById('result').innerText = 'Poisson Result: ' + result;
+        }
+
+        // Function to calculate factorial
+        function factorial(num) {
+            if (num === 0 || num === 1)
+                return 1;
+            for (var i = num - 1; i >= 1; i--) {
+                num *= i;
+            }
+            return num;
+        }
+
+        // Function to round a number to specified decimal places
+        function round(value, decimals) {
+            return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+        }
+
+        // Function to start the number guessing game
+        function startGame() {
+            let minLimit = parseInt(prompt("Enter the minimum range: "));
+            // Check if the user clicked cancel
+            if (minLimit === null) {
+                return; // Stop the game if the user clicked cancel
+            }
+
+            let maxLimit = parseInt(prompt("Enter the maximum range: "));
+            // Check if the user clicked cancel
+            if (maxLimit === null) {
+                return; // Stop the game if the user clicked cancel
+            }
+            let min = minLimit;
+            let max = maxLimit;
+            let guess = 0;
+            let correctGuess = false; // Variable to track if the correct guess is made
+
+            // Create elements dynamically
+            let instructions = document.createElement("p");
+            instructions.innerHTML = `Think of a number between ${minLimit} and ${maxLimit}.`;
+            document.body.appendChild(instructions);
+
+            function makeGuess() {
+                if (min <= max && !correctGuess) {
+                    guess = Math.floor(Math.random() * (max - min + 1) + min);
+                    alert("My guess is: " + guess);
+
+                    let userResponse = prompt("Is it correct? (Type 'correct', 'up', or 'down')");
+
+                    while (userResponse !== "correct" && userResponse !== "up" && userResponse !== "down") {
+                        userResponse = prompt("Invalid input. Type 'correct', 'up', or 'down'.");
+                    }
+
+                    if (userResponse === "up") {
+                        min = guess + 1;
+                        if (min >= maxLimit) {
+                            min = maxLimit;
+                        }
+                    } else if (userResponse === "down") {
+                        max = guess - 1;
+                        if (max <= minLimit) {
+                            max = minLimit;
+                        }
+                    } else {
+                        alert("I guessed it! The number is: " + guess);
+                        correctGuess = true; // Set correctGuess to true when the correct answer is found
+                        instructions.remove(); // Remove the range instructions after the correct guess
+                    }
+
+                    // Make next guess automatically if correct answer is not found
+                    if (!correctGuess) {
+                        makeGuess();
+                    }
+                } else {
+                    alert("Invalid action. Please try again.");
+                }
+            }
+
+            // Start the guessing game
+            makeGuess();
+        }
+    </script>
 </body>
 </html>
