@@ -33,122 +33,29 @@
     <button onclick="startGame()">Start Game</button>
 
     <!-- Calculator section -->
-    <h2>Calculator</h2> <!-- Title for the Calculator section -->
+    <h2>Calculator</h2>
     <div id="calculator">
         <!-- Buttons for different types of probability calculations -->
-        <button onclick="toggleBinomial()">Binomial Probability</button>
-        <button onclick="togglePoisson()">Poisson Probability</button>
+        <button onclick="toggleCalculator('binomial')">Binomial Probability</button>
+        <button onclick="toggleCalculator('poisson')">Poisson Probability</button>
     </div>
 
-    <!-- Binomial Calculator forms -->
-    <div id="binomialCalculators" class="subpage">
-        <!-- Binomial Calculator form -->
-        <form id="binomialForm" class="binomialForm subpage">
-            <label for="n">Enter the value of n:</label>
-            <input type="number" id="n_binomial" name="n_binomial"><br><br>
+    <!-- Combined Calculator form -->
+    <div id="combinedCalculator" class="calculator-form">
+        <form id="combinedForm" class="calculatorForm subpage">
+            <label for="n">Enter the value of n or λ:</label>
+            <input type="number" id="n" name="n"><br><br>
 
             <label for="k">Enter the value of k:</label>
-            <input type="number" id="k_binomial" name="k_binomial"><br><br>
+            <input type="number" id="k" name="k"><br><br>
 
-            <label for="p">Enter the value of p (in decimals):</label>
-            <input type="number" id="p_binomial" name="p_binomial" step="0.01"><br><br>
+            <label for="p">Enter the value of p (in decimals) for Binomial or λ for Poisson:</label>
+            <input type="number" id="p" name="p" step="0.01"><br><br>
 
-            <button type="button" onclick="calculateBinomial()">Calculate</button>
-        </form>
+            <label for="range">Enter the range (for Range calculations, if applicable):</label>
+            <input type="text" id="range" name="range"><br><br>
 
-        <!-- Binomial Calculator form (Maximum) -->
-        <form id="binomialFormMax" class="binomialForm subpage">
-            <label for="n_max">Enter the value of n:</label>
-            <input type="number" id="n_max" name="n_max"><br><br>
-
-            <label for="k_max">Enter the maximum value of k:</label>
-            <input type="number" id="k_max" name="k_max"><br><br>
-
-            <label for="p_max">Enter the value of p (in decimals):</label>
-            <input type="number" id="p_max" name="p_max" step="0.01"><br><br>
-
-            <button type="button" onclick="calculateBinomialMax()">Calculate</button>
-        </form>
-
-        <!-- Binomial Calculator form (Range) -->
-        <form id="binomialFormRange" class="binomialForm subpage">
-            <label for="n_range">Enter the value of n:</label>
-            <input type="number" id="n_range" name="n_range"><br><br>
-
-            <label for="a_range">Enter the minimum value of k:</label>
-            <input type="number" id="a_range" name="a_range"><br><br>
-
-            <label for="b_range">Enter the maximum value of k:</label>
-            <input type="number" id="b_range" name="b_range"><br><br>
-
-            <label for="p_range">Enter the value of p (in decimals):</label>
-            <input type="number" id="p_range" name="p_range" step="0.01"><br><br>
-
-            <button type="button" onclick="calculateBinomialRange()">Calculate</button>
-        </form>
-
-        <!-- Binomial Calculator form (At Least) -->
-        <form id="binomialFormAtLeast" class="binomialForm subpage">
-            <label for="n_least">Enter the value of n:</label>
-            <input type="number" id="n_least" name="n_least"><br><br>
-
-            <label for="k_least">Enter the minimum value of k:</label>
-            <input type="number" id="k_least" name="k_least"><br><br>
-
-            <label for="p_least">Enter the value of p (in decimals):</label>
-            <input type="number" id="p_least" name="p_least" step="0.01"><br><br>
-
-            <button type="button" onclick="calculateBinomialAtLeast()">Calculate</button>
-        </form>
-    </div>
-
-    <!-- Poisson Calculator forms -->
-    <div id="poissonCalculators" class="subpage">
-        <!-- Poisson Calculator form -->
-        <form id="poissonForm" class="poissonForm subpage">
-            <label for="k_poisson">Enter the value of k:</label>
-            <input type="number" id="k_poisson" name="k_poisson"><br><br>
-
-            <label for="lambda_poisson">Enter the value of λ:</label>
-            <input type="number" id="lambda_poisson" name="lambda_poisson"><br><br>
-
-            <button type="button" onclick="calculatePoisson()">Calculate</button>
-        </form>
-
-        <!-- Poisson Calculator form (Maximum) -->
-        <form id="poissonFormMax" class="poissonForm subpage">
-            <label for="k_poisson_max">Enter the value of k:</label>
-            <input type="number" id="k_poisson_max" name="k_poisson_max"><br><br>
-
-            <label for="lambda_poisson_max">Enter the value of λ:</label>
-            <input type="number" id="lambda_poisson_max" name="lambda_poisson_max"><br><br>
-
-            <button type="button" onclick="calculatePoissonMax()">Calculate</button>
-        </form>
-
-        <!-- Poisson Calculator form (Range) -->
-        <form id="poissonFormRange" class="poissonForm subpage">
-            <label for="a_poisson_range">Enter the minimum value of k:</label>
-            <input type="number" id="a_poisson_range" name="a_poisson_range"><br><br>
-
-            <label for="b_poisson_range">Enter the maximum value of k:</label>
-            <input type="number" id="b_poisson_range" name="b_poisson_range"><br><br>
-
-            <label for="lambda_poisson_range">Enter the value of λ:</label>
-            <input type="number" id="lambda_poisson_range" name="lambda_poisson_range"><br><br>
-
-            <button type="button" onclick="calculatePoissonRange()">Calculate</button>
-        </form>
-
-        <!-- Poisson Calculator form (At Least) -->
-        <form id="poissonFormAtLeast" class="poissonForm subpage">
-            <label for="k_poisson_least">Enter the minimum value of k:</label>
-            <input type="number" id="k_poisson_least" name="k_poisson_least"><br><br>
-
-            <label for="lambda_poisson_least">Enter the value of λ:</label>
-            <input type="number" id="lambda_poisson_least" name="lambda_poisson_least"><br><br>
-
-            <button type="button" onclick="calculatePoissonAtLeast()">Calculate</button>
+            <button type="button" onclick="calculate()">Calculate</button>
         </form>
     </div>
 
@@ -157,104 +64,100 @@
 
     <!-- JavaScript code for binomial and Poisson probability calculation -->
     <script>
-      // Function to toggle the visibility of the Binomial probability calculator
-function toggleBinomial() {
-    document.getElementById("binomialCalculators").style.display = "block";
-    document.getElementById("poissonCalculators").style.display = "none";
-}
+        // Function to toggle the visibility of the calculator forms
+        function toggleCalculator(type) {
+            var calculatorForm = document.getElementById("combinedCalculator");
+            calculatorForm.style.display = "block";
+            document.getElementById("result").innerHTML = ""; // Clear previous result
 
-// Function to toggle the visibility of the Poisson probability calculator
-function togglePoisson() {
-    document.getElementById("poissonCalculators").style.display = "block";
-    document.getElementById("binomialCalculators").style.display = "none";
-}
+            if (type === "binomial") {
+                document.getElementById("p").setAttribute("placeholder", "Enter the probability (p)");
+                document.getElementById("range").setAttribute("placeholder", "Enter the range (e.g., a-b)");
+            } else if (type === "poisson") {
+                document.getElementById("p").setAttribute("placeholder", "Enter λ");
+                document.getElementById("range").setAttribute("placeholder", ""); // Clear placeholder
+            }
+        }
 
- // Function for binomial probability calculation
-function calculateBinomial() {
-    let n = parseInt(document.getElementById("n_binomial").value);
-    let k = parseInt(document.getElementById("k_binomial").value);
-    let p = parseFloat(document.getElementById("p_binomial").value);
-    
-    let result = binomialProbability(n, k, p);
-    
-    document.getElementById("result").innerHTML = `Binomial Probability: ${result.toFixed(4)}`;
-}
+        // Function to calculate both binomial and Poisson probabilities
+        function calculate() {
+            var n = parseFloat(document.getElementById("n").value);
+            var k = parseFloat(document.getElementById("k").value);
+            var p = parseFloat(document.getElementById("p").value);
+            var range = document.getElementById("range").value;
 
-// Function for binomial probability calculation (Maximum)
-function calculateBinomialMax() {
-    let n = parseInt(document.getElementById("n_max").value);
-    let k = parseInt(document.getElementById("k_max").value);
-    let p = parseFloat(document.getElementById("p_max").value);
-    
-    let result = binomialProbabilityMax(n, k, p);
-    
-    document.getElementById("result").innerHTML = `Binomial Probability (Maximum): ${result.toFixed(4)}`;
-}
+            if (isNaN(n) || isNaN(k) || isNaN(p)) {
+                alert("Please enter valid numeric values for n, k, and p (or λ).");
+                return;
+            }
 
-// Function for binomial probability calculation (Range)
-function calculateBinomialRange() {
-    let n = parseInt(document.getElementById("n_range").value);
-    let a = parseInt(document.getElementById("a_range").value);
-    let b = parseInt(document.getElementById("b_range").value);
-    let p = parseFloat(document.getElementById("p_range").value);
-    
-    let result = binomialProbabilityRange(n, a, b, p);
-    
-    document.getElementById("result").innerHTML = `Binomial Probability (Range): ${result.toFixed(4)}`;
-}
+            var result = "";
+            var binomialResults = "";
+            var poissonResults = "";
 
-// Function for binomial probability calculation (At Least)
-function calculateBinomialAtLeast() {
-    let n = parseInt(document.getElementById("n_least").value);
-    let k = parseInt(document.getElementById("k_least").value);
-    let p = parseFloat(document.getElementById("p_least").value);
-    
-    let result = binomialProbabilityAtLeast(n, k, p);
-    
-    document.getElementById("result").innerHTML = `Binomial Probability (At Least): ${result.toFixed(4)}`;
-}
+            // Calculate Binomial probabilities
+            if (!isNaN(n) && !isNaN(k) && !isNaN(p)) {
+                binomialResults += "Binomial Probability: " + binomialProbability(n, k, p).toFixed(4) + "<br>";
+                binomialResults += "Binomial Probability (Maximum): " + binomialProbabilityMax(n, k, p).toFixed(4) + "<br>";
+                binomialResults += "Binomial Probability (Range): " + binomialProbabilityRange(n, range, p).toFixed(4) + "<br>";
+                binomialResults += "Binomial Probability (At Least): " + binomialProbabilityAtLeast(n, k, p).toFixed(4) + "<br>";
+            }
 
-// Function for Poisson probability calculation
-function calculatePoisson() {
-    let k = parseInt(document.getElementById("k_poisson").value);
-    let lambda = parseFloat(document.getElementById("lambda_poisson").value);
-    
-    let result = poissonProbability(k, lambda);
-    
-    document.getElementById("result").innerHTML = `Poisson Probability: ${result.toFixed(4)}`;
-}
+            // Calculate Poisson probabilities
+            if (!isNaN(k) && !isNaN(p)) {
+                poissonResults += "Poisson Probability: " + poissonProbability(k, p).toFixed(4) + "<br>";
+                poissonResults += "Poisson Probability (Maximum): " + poissonProbabilityMax(k, p).toFixed(4) + "<br>";
+                poissonResults += "Poisson Probability (Range): " + poissonProbabilityRange(range, p).toFixed(4) + "<br>";
+                poissonResults += "Poisson Probability (At Least): " + poissonProbabilityAtLeast(k, p).toFixed(4) + "<br>";
+            }
 
-// Function for Poisson probability calculation (Maximum)
-function calculatePoissonMax() {
-    let k = parseInt(document.getElementById("k_poisson_max").value);
-    let lambda = parseFloat(document.getElementById("lambda_poisson_max").value);
-    
-    let result = poissonProbabilityMax(k, lambda);
-    
-    document.getElementById("result").innerHTML = `Poisson Probability (Maximum): ${result.toFixed(4)}`;
-}
+            // Combine both Binomial and Poisson results
+            result = binomialResults + "<br>" + poissonResults;
 
-// Function for Poisson probability calculation (Range)
-function calculatePoissonRange() {
-    let a = parseInt(document.getElementById("a_poisson_range").value);
-    let b = parseInt(document.getElementById("b_poisson_range").value);
-    let lambda = parseFloat(document.getElementById("lambda_poisson_range").value);
-    
-    let result = poissonProbabilityRange(a, b, lambda);
-    
-    document.getElementById("result").innerHTML = `Poisson Probability (Range): ${result.toFixed(4)}`;
-}
+            // Display the results
+            document.getElementById("result").innerHTML = result;
+        }
 
-// Function for Poisson probability calculation (At Least)
-function calculatePoissonAtLeast() {
-    let k = parseInt(document.getElementById("k_poisson_least").value);
-    let lambda = parseFloat(document.getElementById("lambda_poisson_least").value);
-    
-    let result = poissonProbabilityAtLeast(k, lambda);
-    
-    document.getElementById("result").innerHTML = `Poisson Probability (At Least): ${result.toFixed(4)}`;
-}
+        // Binomial probability calculation functions
+        function binomialProbability(n, k, p) {
+            // Binomial calculation logic...
+            return 0; // Placeholder return value
+        }
 
+        function binomialProbabilityMax(n, k, p) {
+            // Binomial calculation logic for maximum...
+            return 0; // Placeholder return value
+        }
+
+        function binomialProbabilityRange(n, range, p) {
+            // Binomial calculation logic for range...
+            return 0; // Placeholder return value
+        }
+
+        function binomialProbabilityAtLeast(n, k, p) {
+            // Binomial calculation logic for at least...
+            return 0; // Placeholder return value
+        }
+
+        // Poisson probability calculation functions
+        function poissonProbability(k, lambda) {
+            // Poisson calculation logic...
+            return 0; // Placeholder return value
+        }
+
+        function poissonProbabilityMax(k, lambda) {
+            // Poisson calculation logic for maximum...
+            return 0; // Placeholder return value
+        }
+
+        function poissonProbabilityRange(range, lambda) {
+            // Poisson calculation logic for range...
+            return 0; // Placeholder return value
+        }
+
+        function poissonProbabilityAtLeast(k, lambda) {
+            // Poisson calculation logic for at least...
+            return 0; // Placeholder return value
         // Function to start the number guessing game
         function startGame() {
             let minLimit = parseInt(prompt("Enter the minimum range: "));
