@@ -62,17 +62,18 @@
             <label for="p">Enter the value of p (in decimals):</label>
             <input type="number" id="binomial_p" name="p" step="0.01"><br><br>
 
-            <!-- Buttons for different types of binomial calculations -->
-            <button type="button" class="button" onclick="calculate('binomial', 'k')">X = k</button>
+	@@ -67,10 +71,6 @@ <h3>Binomial Probability Calculator</h3>
             <button type="button" class="button" onclick="calculate('binomial', 'atLeast')">X ≥ k</button>
             <button type="button" class="button" onclick="calculate('binomial', 'atMost')">X ≤ k</button>
-            <button type="button" class="button" onclick="toggleRangeInput('binomial')">k1 ≤ X ≤ k2</button>
-            <input type="number" id="binomial_k2" name="k2" style="display: none;"><br><br>
+            <button type="button" class="button" onclick="showKRangeInput()">k1 ≤ X ≤ k2</button>
+            <div id="kRangeInput" style="display: none;">
+                <label for="k2">Enter the value of k2:</label>
+                <input type="number" id="binomial_k2" name="k2">
+            </div>
         </form>
     </div>
 
-    <div id="poissonCalculator" class="calculator-form">
-        <h3>Poisson Probability Calculator</h3>
+	@@ -79,18 +79,18 @@ <h3>Poisson Probability Calculator</h3>
         <form id="poissonForm" class="calculatorForm subpage">
             <label for="k_poisson">Enter the value of k:</label>
             <input type="number" id="k_poisson" name="k_poisson"><br><br>
@@ -83,103 +84,78 @@
             <button type="button" class="button" onclick="calculate('poisson', 'k')">X = k</button>
             <button type="button" class="button" onclick="calculate('poisson', 'atLeast')">X ≥ k</button>
             <button type="button" class="button" onclick="calculate('poisson', 'atMost')">X ≤ k</button>
-            <button type="button" class="button" onclick="toggleRangeInput('poisson')">k1 ≤ X ≤ k2</button>
-            <input type="number" id="poisson_k2" name="k2" style="display: none;"><br><br>
+            <button type="button" class="button" onclick="showKRangeInput()">k1 ≤ X ≤ k2</button>
+            <div id="kRangeInput" style="display: none;">
+                <label for="k2_poisson">Enter the value of k2:</label>
+                <input type="number" id="k2_poisson" name="k2_poisson">
+            </div>
         </form>
     </div>
 
-    <div id="result"></div>
-
-    <script>
-        function toggleCalculator(type) {
-            var calculatorForms = document.querySelectorAll(".calculator-form");
-            for (var i = 0; i < calculatorForms.length; i++) {
-                calculatorForms[i].classList.remove("active");
-            }
-            document.getElementById(type + "Calculator").classList.add("active");
-            document.getElementById("result").innerHTML = ""; // Clear previous result
-        }
-
-        function calculate(type, option) {
-            var n, k, p, lambda, k2;
-            if (type === 'binomial') {
-                n = parseFloat(document.getElementById("binomial_n").value);
-                k = parseFloat(document.getElementById("binomial_k").value);
-                p = parseFloat(document.getElementById("binomial_p").value);
-                k2 = parseFloat(document.getElementById("binomial_k2").value);
-            } else {
-                k = parseFloat(document.getElementById("k_poisson").value);
+	@@ -117,19 +117,22 @@ <h3>Poisson Probability Calculator</h3>
                 lambda = parseFloat(document.getElementById("lambda").value);
-                k2 = parseFloat(document.getElementById("poisson_k2").value);
             }
 
-            var result;
-            switch (option) {
-                case 'k':
-                    result = calculateProbability(type, 'k', k, p, lambda);
-                    break;
-                case 'atLeast':
-                    result = calculateProbability(type, 'atLeast', k, p, lambda);
-                    break;
-                case 'atMost':
-                    result = calculateProbability(type, 'atMost', k, p, lambda);
-                    break;
-                case 'range':
-                    result = calculateRangeProbability(type, k, k2, p, lambda);
-                    break;
-                default:
-                    result = "Invalid option!";
+            var range;
+            if (option === 'range') {
+                range = prompt("Enter the range (e.g., k1-k2):");
+                if (range === null) return; // Exit if user cancels
             }
 
-            document.getElementById("result").innerHTML = "Result: " + result;
-        }
-
-        function calculateProbability(type, option, k, p, lambda) {
             var result;
             switch (type) {
                 case 'binomial':
-                    switch (option) {
-                        case 'k':
-                            result = nChooseK(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
-                            break;
-                        case 'atLeast':
-                            result = binomialAtLeast(n, k, p);
-                            break;
-                        case 'atMost':
-                            result = binomialAtMost(n, k, p);
-                            break;
-                    }
+                    result = binomialProbability(n, k, p, option, range);
                     break;
                 case 'poisson':
-                    switch (option) {
-                        case 'k':
-                            result = poissonX(k, lambda);
-                            break;
-                        case 'atLeast':
-                            result = poissonAtLeast(k, lambda);
-                            break;
-                        case 'atMost':
-                            result = poissonAtMost(k, lambda);
-                            break;
-                    }
+                    result = poissonProbability(k, lambda, option, range);
                     break;
+                default:
+                    result = "Invalid calculation type!";
+	@@ -143,117 +146,14 @@ <h3>Poisson Probability Calculator</h3>
+            kRangeInput.style.display = "block";
+        }
+
+        function binomialProbability(n, k, p, option, range) {
+            var result;
+            switch (option) {
+                case 'k':
+                    result = nChooseK(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
+                    break;
+                case 'atLeast':
+                    result = binomialAtLeast(n, k, p);
+                    break;
+                case 'atMost':
+                    result = binomialAtMost(n, k, p);
+                    break;
+                case 'range':
+                    result = binomialInRange(n, p, range);
+                    break;
+                default:
+                    result = "Invalid option!";
             }
             return result.toFixed(5); // Round the result to 5 decimal places
         }
 
-        function calculateRangeProbability(type, k1, k2, p, lambda) {
+        function poissonProbability(k, lambda, option, range) {
             var result;
-            switch (type) {
-                case 'binomial':
-                    result = "Calculation for k1 ≤ X ≤ k2"; // Implement your logic here
+            switch (option) {
+                case 'k':
+                    result = poissonX(k, lambda);
                     break;
-                case 'poisson':
-                    result = "Calculation for k1 ≤ X ≤ k2"; // Implement your logic here
+                case 'atLeast':
+                    result = poissonAtLeast(k, lambda);
+                    break;
+                case 'atMost':
+                    result = poissonAtMost(k, lambda);
+                    break;
+                case 'range':
+                    result = poissonInRange(lambda, range);
                     break;
                 default:
                     result = "Invalid option!";
             }
-            return result;
+            return result.toFixed(5); // Round the result to 5 decimal places
         }
 
         function nChooseK(n, k) {
@@ -250,15 +226,6 @@
                 result += Math.exp(-lambda) * Math.pow(lambda, x) / factorial(x);
             }
             return result;
-        }
-
-        function toggleRangeInput(type) {
-            var rangeInput = document.getElementById(type + "_k2");
-            if (rangeInput.style.display === "none") {
-                rangeInput.style.display = "inline";
-            } else {
-                rangeInput.style.display = "none";
-            }
         }
     </script>
 </body>
