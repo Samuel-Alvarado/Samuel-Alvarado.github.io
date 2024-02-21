@@ -248,6 +248,25 @@ function poissonProbability(k, lambda, option, range) {
             }
             return result;
         }
+        // Additional binomial probability calculation function for range
+function binomialInRange(n, p, range) {
+    var bounds = range.split('-').map(Number);
+    var result = 0;
+    for (var x = bounds[0]; x <= bounds[1]; x++) {
+        result += nChooseK(n, x) * Math.pow(p, x) * Math.pow(1 - p, n - x);
+    }
+    return result;
+}
+
+// Additional Poisson probability calculation function for range
+function poissonInRange(lambda, range) {
+    var bounds = range.split('-').map(Number);
+    var result = 0;
+    for (var x = bounds[0]; x <= bounds[1]; x++) {
+        result += Math.exp(-lambda) * Math.pow(lambda, x) / factorial(x);
+    }
+    return result;
+}
     </script>
 </body>
 </html>
