@@ -16,10 +16,6 @@
             display: none;
         }
 
-        .calculator-form.active {
-            display: block;
-        }
-
         .button {
             background-color: #007bff; /* Blue button color */
             color: white; /* White text color */
@@ -59,9 +55,9 @@
         <button onclick="toggleCalculator('poisson')">Poisson Probability</button>
     </div>
 
-    <!-- Combined Calculator form -->
-    <div id="combinedCalculator" class="calculator-form active">
-        <form id="combinedForm" class="calculatorForm subpage">
+    <!-- Binomial Calculator form -->
+    <div id="binomialCalculator" class="calculator-form">
+        <form id="binomialForm" class="calculatorForm subpage">
             <label for="n">Enter the value of n:</label>
             <input type="number" id="n" name="n"><br><br>
 
@@ -74,7 +70,20 @@
             <label for="range">Enter the range (for Range calculations, if applicable):</label>
             <input type="text" id="range" name="range"><br><br>
 
-            <button type="button" onclick="calculate()">Calculate</button>
+            <button type="button" onclick="calculate('binomial')">Calculate</button>
+        </form>
+    </div>
+
+    <!-- Poisson Calculator form -->
+    <div id="poissonCalculator" class="calculator-form">
+        <form id="poissonForm" class="calculatorForm subpage">
+            <label for="k">Enter the value of k:</label>
+            <input type="number" id="k_poisson" name="k_poisson"><br><br>
+
+            <label for="lambda">Enter the value of λ (lambda):</label>
+            <input type="number" id="lambda" name="lambda" step="0.01"><br><br>
+
+            <button type="button" onclick="calculate('poisson')">Calculate</button>
         </form>
     </div>
 
@@ -87,34 +96,45 @@
         function toggleCalculator(type) {
             var calculatorForms = document.querySelectorAll(".calculator-form");
             for (var i = 0; i < calculatorForms.length; i++) {
-                calculatorForms[i].classList.remove("active");
+                calculatorForms[i].style.display = "none";
             }
-            document.getElementById(type + "Calculator").classList.add("active");
+            document.getElementById(type + "Calculator").style.display = "block";
             document.getElementById("result").innerHTML = ""; // Clear previous result
         }
 
         // Function to calculate both binomial and Poisson probabilities
-        function calculate() {
-            var n = parseFloat(document.getElementById("n").value);
-            var k = parseFloat(document.getElementById("k").value);
-            var p = parseFloat(document.getElementById("p").value);
-            var range = document.getElementById("range").value;
+        function calculate(type) {
+            var n, k, p, range, lambda;
+            if (type === 'binomial') {
+                n = parseFloat(document.getElementById("n").value);
+                k = parseFloat(document.getElementById("k").value);
+                p = parseFloat(document.getElementById("p").value);
+                range = document.getElementById("range").value;
 
-            if (isNaN(n) || isNaN(k) || isNaN(p)) {
-                alert("Please enter valid numeric values for n, k, and p.");
-                return;
+                if (isNaN(n) || isNaN(k) || isNaN(p)) {
+                    alert("Please enter valid numeric values for n, k, and p.");
+                    return;
+                }
+            } else if (type === 'poisson') {
+                k = parseFloat(document.getElementById("k_poisson").value);
+                lambda = parseFloat(document.getElementById("lambda").value);
+
+                if (isNaN(k) || isNaN(lambda)) {
+                    alert("Please enter valid numeric values for k and λ.");
+                    return;
+                }
             }
 
             var result = "";
 
             // Binomial probability calculation
-            if (!isNaN(n) && !isNaN(k) && !isNaN(p)) {
+            if (type === 'binomial') {
                 result += "Binomial Probability: " + binomialProbability(n, k, p).toFixed(4) + "<br>";
             }
 
             // Poisson probability calculation
-            if (!isNaN(k) && !isNaN(p)) {
-                result += "Poisson Probability: " + poissonProbability(k, p).toFixed(4) + "<br>";
+            if (type === 'poisson') {
+                result += "Poisson Probability: " + poissonProbability(k, lambda).toFixed(4) + "<br>";
             }
 
             // Display the results
