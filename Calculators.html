@@ -70,7 +70,7 @@
             <button type="button" class="button" onclick="calculate('binomial', 'k')">X = k</button>
             <button type="button" class="button" onclick="calculate('binomial', 'atLeast')">X ≥ k</button>
             <button type="button" class="button" onclick="calculate('binomial', 'atMost')">X ≤ k</button>
-            <button type="button" class="button" onclick="showKRangeInput()">k1 ≤ X ≤ k2</button>
+            <button type="button" class="button" onclick="toggleRangeInput('binomial')">k1 ≤ X ≤ k2</button>
         </form>
     </div>
 
@@ -90,7 +90,7 @@
             <button type="button" class="button" onclick="calculate('poisson', 'k')">X = k</button>
             <button type="button" class="button" onclick="calculate('poisson', 'atLeast')">X ≥ k</button>
             <button type="button" class="button" onclick="calculate('poisson', 'atMost')">X ≤ k</button>
-            <button type="button" class="button" onclick="showKRangeInput_poisson()">k1 ≤ X ≤ k2</button>
+            <button type="button" class="button" onclick="toggleRangeInput('poisson')">k1 ≤ X ≤ k2</button>
         </form>
     </div>
 
@@ -122,16 +122,16 @@
             var result;
             switch (option) {
                 case 'k':
-                    result = k;
+                    result = calculateProbability(type, 'k', k, p, lambda);
                     break;
                 case 'atLeast':
-                    result = "Calculation for X ≥ k"; // Implement your logic here
+                    result = calculateProbability(type, 'atLeast', k, p, lambda);
                     break;
                 case 'atMost':
-                    result = "Calculation for X ≤ k"; // Implement your logic here
+                    result = calculateProbability(type, 'atMost', k, p, lambda);
                     break;
                 case 'range':
-                    result = "Calculation for k1 ≤ X ≤ k2"; // Implement your logic here
+                    result = calculateRangeProbability(type, k, k2, p, lambda);
                     break;
                 default:
                     result = "Invalid option!";
@@ -140,14 +140,77 @@
             document.getElementById("result").innerHTML = "Result: " + result;
         }
 
-        function showKRangeInput() {
-            var kRangeInput = document.getElementById("kRangeInput");
-            kRangeInput.style.display = "block";
+        function calculateProbability(type, option, k, p, lambda) {
+            var result;
+            switch (type) {
+                case 'binomial':
+                    result = binomialProbability(k, p, option);
+                    break;
+                case 'poisson':
+                    result = poissonProbability(k, lambda, option);
+                    break;
+                default:
+                    result = "Invalid type!";
+            }
+            return result;
         }
 
-        function showKRangeInput_poisson() {
-            var kRangeInput_poisson = document.getElementById("kRangeInput_poisson");
-            kRangeInput_poisson.style.display = "block";
+        function calculateRangeProbability(type, k1, k2, p, lambda) {
+            var result;
+            switch (type) {
+                case 'binomial':
+                    result = "Calculation for k1 ≤ X ≤ k2"; // Implement your logic here
+                    break;
+                case 'poisson':
+                    result = "Calculation for k1 ≤ X ≤ k2"; // Implement your logic here
+                    break;
+                default:
+                    result = "Invalid option!";
+            }
+            return result;
+        }
+
+        function binomialProbability(k, p, option) {
+            var result;
+            // Implement your binomial probability calculation logic here for the given option
+            switch (option) {
+                case 'k':
+                    result = "Calculation for X = k"; // Implement your logic here
+                    break;
+                case 'atLeast':
+                    result = "Calculation for X ≥ k"; // Implement your logic here
+                    break;
+                case 'atMost':
+                    result = "Calculation for X ≤ k"; // Implement your logic here
+                    break;
+                default:
+                    result = "Invalid option!";
+            }
+            return result;
+        }
+
+        function poissonProbability(k, lambda, option) {
+            var result;
+            // Implement your Poisson probability calculation logic here for the given option
+            switch (option) {
+                case 'k':
+                    result = "Calculation for X = k"; // Implement your logic here
+                    break;
+                case 'atLeast':
+                    result = "Calculation for X ≥ k"; // Implement your logic here
+                    break;
+                case 'atMost':
+                    result = "Calculation for X ≤ k"; // Implement your logic here
+                    break;
+                default:
+                    result = "Invalid option!";
+            }
+            return result;
+        }
+
+        function toggleRangeInput(type) {
+            var rangeInput = document.getElementById(type === 'binomial' ? "kRangeInput" : "kRangeInput_poisson");
+            rangeInput.style.display = rangeInput.style.display === "none" ? "block" : "none";
         }
     </script>
 </body>
