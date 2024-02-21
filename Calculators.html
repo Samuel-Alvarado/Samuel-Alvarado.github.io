@@ -12,18 +12,29 @@
             color: white; /* White text color */
         }
 
+        h2 {
+            font-size: 24px; /* Increase heading font size */
+            margin-top: 20px; /* Add some top margin */
+        }
+
         .calculator-form {
             display: none;
+        }
+
+        .calculator-form.active {
+            display: block;
         }
 
         .button {
             background-color: #007bff; /* Blue button color */
             color: white; /* White text color */
-            padding: 10px 20px;
-            margin: 10px;
+            padding: 15px 30px; /* Increase button padding */
+            margin: 20px; /* Add some margin around buttons */
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 18px; /* Increase button font size */
+            width: 200px; /* Set button width */
         }
 
         .button:hover {
@@ -35,14 +46,14 @@
         }
 
         input {
-            padding: 5px;
-            margin: 5px;
+            padding: 10px; /* Increase input padding */
+            margin: 10px; /* Add some margin around inputs */
             border-radius: 3px;
             border: 1px solid #ccc;
         }
 
         button[type="button"] {
-            margin-top: 10px;
+            margin-top: 20px; /* Add some top margin to calculate button */
         }
     </style>
 </head>
@@ -51,13 +62,13 @@
     <h2>Calculator</h2>
     <div id="calculator">
         <!-- Buttons for different types of probability calculations -->
-        <button onclick="toggleCalculator('binomial')">Binomial Probability</button>
-        <button onclick="toggleCalculator('poisson')">Poisson Probability</button>
+        <button class="button" onclick="toggleCalculator('binomial')">Binomial Probability</button>
+        <button class="button" onclick="toggleCalculator('poisson')">Poisson Probability</button>
     </div>
 
-    <!-- Binomial Calculator form -->
-    <div id="binomialCalculator" class="calculator-form">
-        <form id="binomialForm" class="calculatorForm subpage">
+    <!-- Combined Calculator form -->
+    <div id="combinedCalculator" class="calculator-form active">
+        <form id="combinedForm" class="calculatorForm subpage">
             <label for="n">Enter the value of n:</label>
             <input type="number" id="n" name="n"><br><br>
 
@@ -70,20 +81,7 @@
             <label for="range">Enter the range (for Range calculations, if applicable):</label>
             <input type="text" id="range" name="range"><br><br>
 
-            <button type="button" onclick="calculate('binomial')">Calculate</button>
-        </form>
-    </div>
-
-    <!-- Poisson Calculator form -->
-    <div id="poissonCalculator" class="calculator-form">
-        <form id="poissonForm" class="calculatorForm subpage">
-            <label for="k">Enter the value of k:</label>
-            <input type="number" id="k_poisson" name="k_poisson"><br><br>
-
-            <label for="lambda">Enter the value of λ (lambda):</label>
-            <input type="number" id="lambda" name="lambda" step="0.01"><br><br>
-
-            <button type="button" onclick="calculate('poisson')">Calculate</button>
+            <button class="button" type="button" onclick="calculate()">Calculate</button>
         </form>
     </div>
 
@@ -92,65 +90,78 @@
 
     <!-- JavaScript code for binomial and Poisson probability calculation -->
     <script>
-        // Function to toggle the visibility of the calculator forms
+        // Binomial probability calculation function
+        function binomialProbability(n, k, p) {
+            // Calculate binomial coefficient (n choose k)
+            function binomialCoefficient(n, k) {
+                if (k === 0 || k === n) {
+                    return 1;
+                }
+                let result = 1;
+                for (let i = 1; i <= k; i++) {
+                    result *= (n - i + 1) / i;
+                }
+                return result;
+            }
+            
+            // Calculate binomial probability using the formula: C(n, k) * p^k * (1 - p)^(n - k)
+            return binomialCoefficient(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
+        }
+
+        // Poisson probability calculation function
+        function poissonProbability(k, lambda) {
+            // Calculate Poisson probability using the formula: (e^(-λ) * λ^k) / k!
+            return Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k);
+        }
+
+        // Factorial function
+        function factorial(n) {
+            if (n === 0 || n === 1) {
+                return 1;
+            }
+            let result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+
+        // Function to toggle the visibility
         function toggleCalculator(type) {
             var calculatorForms = document.querySelectorAll(".calculator-form");
             for (var i = 0; i < calculatorForms.length; i++) {
-                calculatorForms[i].style.display = "none";
+                calculatorForms[i].classList.remove("active");
             }
-            document.getElementById(type + "Calculator").style.display = "block";
+            document.getElementById(type + "Calculator").classList.add("active");
             document.getElementById("result").innerHTML = ""; // Clear previous result
         }
 
         // Function to calculate both binomial and Poisson probabilities
-        function calculate(type) {
-            var n, k, p, range, lambda;
-            if (type === 'binomial') {
-                n = parseFloat(document.getElementById("n").value);
-                k = parseFloat(document.getElementById("k").value);
-                p = parseFloat(document.getElementById("p").value);
-                range = document.getElementById("range").value;
+        function calculate() {
+            var n = parseFloat(document.getElementById("n").value);
+            var k = parseFloat(document.getElementById("k").value);
+            var p = parseFloat(document.getElementById("p").value);
+            var range = document.getElementById("range").value;
 
-                if (isNaN(n) || isNaN(k) || isNaN(p)) {
-                    alert("Please enter valid numeric values for n, k, and p.");
-                    return;
-                }
-            } else if (type === 'poisson') {
-                k = parseFloat(document.getElementById("k_poisson").value);
-                lambda = parseFloat(document.getElementById("lambda").value);
-
-                if (isNaN(k) || isNaN(lambda)) {
-                    alert("Please enter valid numeric values for k and λ.");
-                    return;
-                }
+            if (isNaN(n) || isNaN(k) || isNaN(p)) {
+                alert("Please enter valid numeric values for n, k, and p.");
+                return;
             }
 
             var result = "";
 
             // Binomial probability calculation
-            if (type === 'binomial') {
+            if (!isNaN(n) && !isNaN(k) && !isNaN(p)) {
                 result += "Binomial Probability: " + binomialProbability(n, k, p).toFixed(4) + "<br>";
             }
 
             // Poisson probability calculation
-            if (type === 'poisson') {
-                result += "Poisson Probability: " + poissonProbability(k, lambda).toFixed(4) + "<br>";
+            if (!isNaN(k) && !isNaN(p)) {
+                result += "Poisson Probability: " + poissonProbability(k, p).toFixed(4) + "<br>";
             }
 
             // Display the results
             document.getElementById("result").innerHTML = result;
-        }
-
-        // Binomial probability calculation function
-        function binomialProbability(n, k, p) {
-            // Binomial calculation logic...
-            return 0; // Placeholder return value
-        }
-
-        // Poisson probability calculation function
-        function poissonProbability(k, lambda) {
-            // Poisson calculation logic...
-            return 0; // Placeholder return value
         }
     </script>
 </body>
