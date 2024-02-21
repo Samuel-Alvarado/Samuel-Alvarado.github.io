@@ -1,1 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samuel Alvarado's Github</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #333; /* Dark background color */
+            color: white; /* White text color */
+        }
 
+        .container {
+            padding: 50px;
+        }
+
+        button {
+            background-color: #007bff; /* Blue button color */
+            color: white; /* White text color */
+            padding: 10px 20px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Number Guessing Game section -->
+        <h1>Number Guessing Game</h1>
+        <p>Press the button to start the game:</p>
+        <button onclick="startGame()">Start Game</button>
+    </div>
+
+    <script>
+        // Function to start the number guessing game
+        function startGame() {
+            let minLimit = parseInt(prompt("Enter the minimum range: "));
+            // Check if the user clicked cancel
+            if (minLimit === null) {
+                return; // Stop the game if the user clicked cancel
+            }
+
+            let maxLimit = parseInt(prompt("Enter the maximum range: "));
+            // Check if the user clicked cancel
+            if (maxLimit === null) {
+                return; // Stop the game if the user clicked cancel
+            }
+            let min = minLimit;
+            let max = maxLimit;
+            let guess = 0;
+            let correctGuess = false; // Variable to track if the correct guess is made
+
+            // Create elements dynamically
+            let instructions = document.createElement("p");
+            instructions.innerHTML = `Think of a number between ${minLimit} and ${maxLimit}.`;
+            document.body.appendChild(instructions);
+
+            function makeGuess() {
+                if (min <= max && !correctGuess) {
+                    guess = Math.floor(Math.random() * (max - min + 1) + min);
+                    alert("My guess is: " + guess);
+
+                    let userResponse = prompt("Is it correct? (Type 'correct', 'up', or 'down')");
+
+                    while (userResponse !== "correct" && userResponse !== "up" && userResponse !== "down") {
+                        userResponse = prompt("Invalid input. Type 'correct', 'up', or 'down'.");
+                    }
+
+                    if (userResponse === "up") {
+                        min = guess + 1;
+                        if (min >= maxLimit) {
+                            min = maxLimit;
+                        }
+                    } else if (userResponse === "down") {
+                        max = guess - 1;
+                        if (max <= minLimit) {
+                            max = minLimit;
+                        }
+                    } else {
+                        alert("I guessed it! The number is: " + guess);
+                        correctGuess = true; // Set correctGuess to true when the correct answer is found
+                        instructions.remove(); // Remove the range instructions after the correct guess
+                    }
+
+                    // Make next guess automatically if correct answer is not found
+                    if (!correctGuess) {
+                        makeGuess();
+                    }
+                } else {
+                    alert("Invalid action. Please try again.");
+                }
+            }
+
+            // Start the guessing game
+            makeGuess();
+        }
+    </script>
+</body>
+</html>
