@@ -12,11 +12,6 @@
             color: white; /* White text color */
         }
 
-        h2 {
-            font-size: 24px; /* Increase heading font size */
-            margin-top: 20px; /* Add some top margin */
-        }
-
         .calculator-form {
             display: none;
         }
@@ -28,13 +23,11 @@
         .button {
             background-color: #007bff; /* Blue button color */
             color: white; /* White text color */
-            padding: 15px 30px; /* Increase button padding */
-            margin: 20px; /* Add some margin around buttons */
+            padding: 15px 30px; /* Larger button size */
+            margin: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 18px; /* Increase button font size */
-            width: 200px; /* Set button width */
         }
 
         .button:hover {
@@ -46,14 +39,14 @@
         }
 
         input {
-            padding: 10px; /* Increase input padding */
-            margin: 10px; /* Add some margin around inputs */
+            padding: 10px; /* Larger input size */
+            margin: 10px;
             border-radius: 3px;
             border: 1px solid #ccc;
         }
 
         button[type="button"] {
-            margin-top: 20px; /* Add some top margin to calculate button */
+            margin-top: 20px; /* Increased top margin for buttons */
         }
     </style>
 </head>
@@ -62,26 +55,46 @@
     <h2>Calculator</h2>
     <div id="calculator">
         <!-- Buttons for different types of probability calculations -->
-        <button class="button" onclick="toggleCalculator('binomial')">Binomial Probability</button>
-        <button class="button" onclick="toggleCalculator('poisson')">Poisson Probability</button>
+        <button onclick="toggleCalculator('binomial')">Binomial Probability</button>
+        <button onclick="toggleCalculator('poisson')">Poisson Probability</button>
     </div>
 
     <!-- Combined Calculator form -->
-    <div id="combinedCalculator" class="calculator-form active">
-        <form id="combinedForm" class="calculatorForm subpage">
+    <div id="binomialCalculator" class="calculator-form">
+        <h3>Binomial Probability Calculator</h3>
+        <form id="binomialForm" class="calculatorForm subpage">
             <label for="n">Enter the value of n:</label>
-            <input type="number" id="n" name="n"><br><br>
+            <input type="number" id="binomial_n" name="n"><br><br>
 
             <label for="k">Enter the value of k:</label>
-            <input type="number" id="k" name="k"><br><br>
+            <input type="number" id="binomial_k" name="k"><br><br>
 
             <label for="p">Enter the value of p (in decimals):</label>
-            <input type="number" id="p" name="p" step="0.01"><br><br>
+            <input type="number" id="binomial_p" name="p" step="0.01"><br><br>
 
-            <label for="range">Enter the range (for Range calculations, if applicable):</label>
-            <input type="text" id="range" name="range"><br><br>
+            <!-- Buttons for different types of binomial calculations -->
+            <button type="button" onclick="calculate('binomial', 'x')">X = x</button>
+            <button type="button" onclick="calculate('binomial', 'atLeast')">X ≥ x</button>
+            <button type="button" onclick="calculate('binomial', 'atMost')">X ≤ x</button>
+            <button type="button" onclick="calculate('binomial', 'range')">Range</button>
+        </form>
+    </div>
 
-            <button class="button" type="button" onclick="calculate()">Calculate</button>
+    <!-- Poisson Calculator form -->
+    <div id="poissonCalculator" class="calculator-form">
+        <h3>Poisson Probability Calculator</h3>
+        <form id="poissonForm" class="calculatorForm subpage">
+            <label for="k_poisson">Enter the value of k:</label>
+            <input type="number" id="k_poisson" name="k_poisson"><br><br>
+
+            <label for="lambda">Enter the value of λ:</label>
+            <input type="number" id="lambda" name="lambda" step="0.01"><br><br>
+
+            <!-- Buttons for different types of Poisson calculations -->
+            <button type="button" onclick="calculate('poisson', 'x')">X = x</button>
+            <button type="button" onclick="calculate('poisson', 'atLeast')">X ≥ x</button>
+            <button type="button" onclick="calculate('poisson', 'atMost')">X ≤ x</button>
+            <button type="button" onclick="calculate('poisson', 'range')">Range</button>
         </form>
     </div>
 
@@ -90,43 +103,7 @@
 
     <!-- JavaScript code for binomial and Poisson probability calculation -->
     <script>
-        // Binomial probability calculation function
-        function binomialProbability(n, k, p) {
-            // Calculate binomial coefficient (n choose k)
-            function binomialCoefficient(n, k) {
-                if (k === 0 || k === n) {
-                    return 1;
-                }
-                let result = 1;
-                for (let i = 1; i <= k; i++) {
-                    result *= (n - i + 1) / i;
-                }
-                return result;
-            }
-            
-            // Calculate binomial probability using the formula: C(n, k) * p^k * (1 - p)^(n - k)
-            return binomialCoefficient(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
-        }
-
-        // Poisson probability calculation function
-        function poissonProbability(k, lambda) {
-            // Calculate Poisson probability using the formula: (e^(-λ) * λ^k) / k!
-            return Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k);
-        }
-
-        // Factorial function
-        function factorial(n) {
-            if (n === 0 || n === 1) {
-                return 1;
-            }
-            let result = 1;
-            for (let i = 2; i <= n; i++) {
-                result *= i;
-            }
-            return result;
-        }
-
-        // Function to toggle the visibility
+        // Function to toggle the visibility of the calculator forms
         function toggleCalculator(type) {
             var calculatorForms = document.querySelectorAll(".calculator-form");
             for (var i = 0; i < calculatorForms.length; i++) {
@@ -136,32 +113,140 @@
             document.getElementById("result").innerHTML = ""; // Clear previous result
         }
 
-        // Function to calculate both binomial and Poisson probabilities
-        function calculate() {
-            var n = parseFloat(document.getElementById("n").value);
-            var k = parseFloat(document.getElementById("k").value);
-            var p = parseFloat(document.getElementById("p").value);
-            var range = document.getElementById("range").value;
-
-            if (isNaN(n) || isNaN(k) || isNaN(p)) {
-                alert("Please enter valid numeric values for n, k, and p.");
-                return;
+        // Function to calculate probabilities
+        function calculate(type, option) {
+            var n, k, p, lambda;
+            if (type === 'binomial') {
+                n = parseFloat(document.getElementById("binomial_n").value);
+                k = parseFloat(document.getElementById("binomial_k").value);
+                p = parseFloat(document.getElementById("binomial_p").value);
+            } else {
+                k = parseFloat(document.getElementById("k_poisson").value);
+                lambda = parseFloat(document.getElementById("lambda").value);
             }
 
-            var result = "";
-
-            // Binomial probability calculation
-            if (!isNaN(n) && !isNaN(k) && !isNaN(p)) {
-                result += "Binomial Probability: " + binomialProbability(n, k, p).toFixed(4) + "<br>";
+            // Additional logic for range calculation
+            var range;
+            if (option === 'range') {
+                range = prompt("Enter the range (e.g., a-b):");
+                if (range === null) return; // Exit if user cancels
             }
 
-            // Poisson probability calculation
-            if (!isNaN(k) && !isNaN(p)) {
-                result += "Poisson Probability: " + poissonProbability(k, p).toFixed(4) + "<br>";
+            // Perform calculation based on type and option
+            var result;
+            switch (type) {
+                case 'binomial':
+                    result = binomialProbability(n, k, p, option, range);
+                    break;
+                case 'poisson':
+                    result = poissonProbability(k, lambda, option, range);
+                    break;
+                default:
+                    result = "Invalid calculation type!";
             }
 
-            // Display the results
+            // Display the result
             document.getElementById("result").innerHTML = result;
+        }
+
+        // Binomial probability calculation function
+        function binomialProbability(n, k, p, option, range) {
+            var result;
+            switch (option) {
+                case 'x':
+                    result = nChooseK(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
+                    break;
+                case 'atLeast':
+                    result = binomialAtLeast(n, k, p);
+                    break;
+                case 'atMost':
+                    result = binomialAtMost(n, k, p);
+                    break;
+                case 'range':
+                    result = "Range calculation";
+                    break;
+                default:
+                    result = "Invalid option!";
+            }
+            return result;
+        }
+
+        // Poisson probability calculation function
+        function poissonProbability(k, lambda, option, range) {
+            var result;
+            switch (option) {
+                case 'x':
+                    result = poissonX(k, lambda);
+                    break;
+                case 'atLeast':
+                    result = poissonAtLeast(k, lambda);
+                    break;
+                case 'atMost':
+                    result = poissonAtMost(k, lambda);
+                    break;
+                case 'range':
+                    result = "Range calculation";
+                    break;
+                default:
+                    result = "Invalid option!";
+            }
+            return result;
+        }
+
+        // Binomial coefficient (n choose k) function
+        function nChooseK(n, k) {
+            var result = factorial(n) / (factorial(k) * factorial(n - k));
+            return result;
+        }
+
+        // Factorial function
+        function factorial(n) {
+            if (n === 0 || n === 1) {
+                return 1;
+            }
+            var result = 1;
+            for (var i = 2; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+
+        // Additional binomial probability calculation functions (for 'atLeast' and 'atMost' options)
+        function binomialAtLeast(n, k, p) {
+            var result = 0;
+            for (var x = k; x <= n; x++) {
+                result += nChooseK(n, x) * Math.pow(p, x) * Math.pow(1 - p, n - x);
+            }
+            return result;
+        }
+
+        function binomialAtMost(n, k, p) {
+            var result = 0;
+            for (var x = 0; x <= k; x++) {
+                result += nChooseK(n, x) * Math.pow(p, x) * Math.pow(1 - p, n - x);
+            }
+            return result;
+        }
+
+        // Additional Poisson probability calculation functions (for 'atLeast' and 'atMost' options)
+        function poissonX(k, lambda) {
+            return Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k);
+        }
+
+        function poissonAtLeast(k, lambda) {
+            var result = 0;
+            for (var x = 0; x <= k; x++) {
+                result += Math.exp(-lambda) * Math.pow(lambda, x) / factorial(x);
+            }
+            return result;
+        }
+
+        function poissonAtMost(k, lambda) {
+            var result = 0;
+            for (var x = k; x >= 0; x--) {
+                result += Math.exp(-lambda) * Math.pow(lambda, x) / factorial(x);
+            }
+            return result;
         }
     </script>
 </body>
