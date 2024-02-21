@@ -59,10 +59,6 @@
             <input type="number" id="binomial_n" name="n"><br><br>
             <label for="k">Enter the value of k:</label>
             <input type="number" id="binomial_k" name="k"><br><br>
-            <div id="kRangeInput" style="display: none;">
-                <label for="k2">Enter the value of k2:</label>
-                <input type="number" id="binomial_k2" name="k2"><br><br>
-            </div>
             <label for="p">Enter the value of p (in decimals):</label>
             <input type="number" id="binomial_p" name="p" step="0.01"><br><br>
 
@@ -70,7 +66,8 @@
             <button type="button" class="button" onclick="calculate('binomial', 'k')">X = k</button>
             <button type="button" class="button" onclick="calculate('binomial', 'atLeast')">X ≥ k</button>
             <button type="button" class="button" onclick="calculate('binomial', 'atMost')">X ≤ k</button>
-            <button type="button" class="button" onclick="showKRangeInput()">k1 ≤ X ≤ k2</button>
+            <button type="button" class="button" onclick="toggleRangeInput('binomial')">k1 ≤ X ≤ k2</button>
+            <input type="number" id="binomial_k2" name="k2" style="display: none;"><br><br>
         </form>
     </div>
 
@@ -79,10 +76,6 @@
         <form id="poissonForm" class="calculatorForm subpage">
             <label for="k_poisson">Enter the value of k:</label>
             <input type="number" id="k_poisson" name="k_poisson"><br><br>
-            <div id="kRangeInput_poisson" style="display: none;">
-                <label for="k2_poisson">Enter the value of k2:</label>
-                <input type="number" id="k2_poisson" name="k2_poisson"><br><br>
-            </div>
             <label for="lambda">Enter the value of λ:</label>
             <input type="number" id="lambda" name="lambda" step="0.01"><br><br>
 
@@ -90,7 +83,8 @@
             <button type="button" class="button" onclick="calculate('poisson', 'k')">X = k</button>
             <button type="button" class="button" onclick="calculate('poisson', 'atLeast')">X ≥ k</button>
             <button type="button" class="button" onclick="calculate('poisson', 'atMost')">X ≤ k</button>
-            <button type="button" class="button" onclick="showKRangeInput_poisson()">k1 ≤ X ≤ k2</button>
+            <button type="button" class="button" onclick="toggleRangeInput('poisson')">k1 ≤ X ≤ k2</button>
+            <input type="number" id="poisson_k2" name="k2" style="display: none;"><br><br>
         </form>
     </div>
 
@@ -116,7 +110,7 @@
             } else {
                 k = parseFloat(document.getElementById("k_poisson").value);
                 lambda = parseFloat(document.getElementById("lambda").value);
-                k2 = parseFloat(document.getElementById("k2_poisson").value);
+                k2 = parseFloat(document.getElementById("poisson_k2").value);
             }
 
             var result;
@@ -140,14 +134,13 @@
             document.getElementById("result").innerHTML = "Result: " + result;
         }
 
-        function showKRangeInput() {
-            var kRangeInput = document.getElementById("kRangeInput");
-            kRangeInput.style.display = "block";
-        }
-
-        function showKRangeInput_poisson() {
-            var kRangeInput_poisson = document.getElementById("kRangeInput_poisson");
-            kRangeInput_poisson.style.display = "block";
+        function toggleRangeInput(type) {
+            var rangeInput = document.getElementById(type + "_k2");
+            if (rangeInput.style.display === "none") {
+                rangeInput.style.display = "inline";
+            } else {
+                rangeInput.style.display = "none";
+            }
         }
     </script>
 </body>
