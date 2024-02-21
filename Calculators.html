@@ -113,46 +113,50 @@
             document.getElementById("result").innerHTML = ""; // Clear previous result
         }
 
-        // Function to calculate probabilities
-        function calculate(type, option) {
-            var n, k, p, lambda;
-            if (type === 'binomial') {
-                n = parseFloat(document.getElementById("binomial_n").value);
-                k = parseFloat(document.getElementById("binomial_k").value);
-                p = parseFloat(document.getElementById("binomial_p").value);
-            } else {
-                k = parseFloat(document.getElementById("k_poisson").value);
-                lambda = parseFloat(document.getElementById("lambda").value);
-            }
+      // Function to calculate probabilities
+function calculate(type, option) {
+    var n, k, p, lambda;
+    if (type === 'binomial') {
+        n = parseFloat(document.getElementById("binomial_n").value);
+        k = parseFloat(document.getElementById("binomial_k").value);
+        p = parseFloat(document.getElementById("binomial_p").value);
+    } else {
+        k = parseFloat(document.getElementById("k_poisson").value);
+        lambda = parseFloat(document.getElementById("lambda").value);
+    }
 
-            // Additional logic for range calculation
-            var range;
-            if (option === 'range') {
-                range = prompt("Enter the range (e.g., a-b):");
-                if (range === null) return; // Exit if user cancels
-            }
-
-            // Perform calculation based on type and option
-            var result;
-            switch (type) {
-                case 'binomial':
-                    result = binomialProbability(n, k, p, option, range);
-                    break;
-                case 'poisson':
-                    result = poissonProbability(k, lambda, option, range);
-                    break;
-                default:
-                    result = "Invalid calculation type!";
-            }
-
-            // Display the result
-            if (option === 'range') {
-                document.getElementById("result").innerHTML = "Probability within the range: " + result.toFixed(5);
-            } else {
-                document.getElementById("result").innerHTML = "Probability: " + result.toFixed(5);
-            }
+    // Additional logic for range calculation
+    var range;
+    if (option === 'range') {
+        var rangeInput = prompt("Enter the range (e.g., a-b):");
+        if (rangeInput === null) return; // Exit if user cancels
+        range = rangeInput.split('-').map(Number); // Parse range input
+        if (range.length !== 2 || isNaN(range[0]) || isNaN(range[1])) {
+            alert("Invalid range format. Please enter two numbers separated by a hyphen.");
+            return;
         }
+    }
 
+    // Perform calculation based on type and option
+    var result;
+    switch (type) {
+        case 'binomial':
+            result = binomialProbability(n, k, p, option, range);
+            break;
+        case 'poisson':
+            result = poissonProbability(k, lambda, option, range);
+            break;
+        default:
+            result = "Invalid calculation type!";
+    }
+
+    // Display the result
+    if (option === 'range') {
+        document.getElementById("result").innerHTML = "Probability within the range: " + result.toFixed(5);
+    } else {
+        document.getElementById("result").innerHTML = "Probability: " + result.toFixed(5);
+    }
+}
        // Binomial probability calculation function
         function binomialProbability(n, k, p, option, range) {
             var result;
