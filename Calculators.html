@@ -149,49 +149,49 @@
             document.getElementById("result").innerHTML = result;
         }
 
-        // Binomial probability calculation function
-        function binomialProbability(n, k, p, option, range) {
-            var result;
-            switch (option) {
-                case 'x':
-                    result = nChooseK(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
-                    break;
-                case 'atLeast':
-                    result = binomialAtLeast(n, k, p);
-                    break;
-                case 'atMost':
-                    result = binomialAtMost(n, k, p);
-                    break;
-                case 'range':
-                    result = "Range calculation";
-                    break;
-                default:
-                    result = "Invalid option!";
-            }
-            return result;
-        }
+       // Binomial probability calculation function
+function binomialProbability(n, k, p, option, range) {
+    var result;
+    switch (option) {
+        case 'x':
+            result = nChooseK(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
+            break;
+        case 'atLeast':
+            result = binomialAtLeast(n, k, p);
+            break;
+        case 'atMost':
+            result = binomialAtMost(n, k, p);
+            break;
+        case 'range':
+            result = "Range calculation";
+            break;
+        default:
+            result = "Invalid option!";
+    }
+    return result.toFixed(5); // Round the result to 5 decimal places
+}
 
-        // Poisson probability calculation function
-        function poissonProbability(k, lambda, option, range) {
-            var result;
-            switch (option) {
-                case 'x':
-                    result = poissonX(k, lambda);
-                    break;
-                case 'atLeast':
-                    result = poissonAtLeast(k, lambda);
-                    break;
-                case 'atMost':
-                    result = poissonAtMost(k, lambda);
-                    break;
-                case 'range':
-                    result = "Range calculation";
-                    break;
-                default:
-                    result = "Invalid option!";
-            }
-            return result;
-        }
+// Poisson probability calculation function
+function poissonProbability(k, lambda, option, range) {
+    var result;
+    switch (option) {
+        case 'x':
+            result = poissonX(k, lambda);
+            break;
+        case 'atLeast':
+            result = poissonAtLeast(k, lambda);
+            break;
+        case 'atMost':
+            result = poissonAtMost(k, lambda);
+            break;
+        case 'range':
+            result = "Range calculation";
+            break;
+        default:
+            result = "Invalid option!";
+    }
+    return result.toFixed(5); // Round the result to 5 decimal places
+}
 
         // Binomial coefficient (n choose k) function
         function nChooseK(n, k) {
