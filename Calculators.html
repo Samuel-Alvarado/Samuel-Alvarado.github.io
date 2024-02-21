@@ -73,10 +73,10 @@
             <input type="number" id="binomial_p" name="p" step="0.01"><br><br>
 
             <!-- Buttons for different types of binomial calculations -->
-            <button type="button" class="button" onclick="calculate('binomial', 'x')">X = x</button>
-            <button type="button" class="button" onclick="calculate('binomial', 'atLeast')">X ≥ x</button>
-            <button type="button" class="button" onclick="calculate('binomial', 'atMost')">X ≤ x</button>
-            <button type="button" class="button" onclick="calculate('binomial', 'range')">Range</button>
+            <button class="button" type="button" onclick="calculate('binomial', 'x')">X = x</button>
+            <button class="button" type="button" onclick="calculate('binomial', 'atLeast')">X ≥ x</button>
+            <button class="button" type="button" onclick="calculate('binomial', 'atMost')">X ≤ x</button>
+            <button class="button" type="button" onclick="calculate('binomial', 'range')">Range</button>
         </form>
     </div>
 
@@ -91,10 +91,10 @@
             <input type="number" id="lambda" name="lambda" step="0.01"><br><br>
 
             <!-- Buttons for different types of Poisson calculations -->
-            <button type="button" class="button" onclick="calculate('poisson', 'x')">X = x</button>
-            <button type="button" class="button" onclick="calculate('poisson', 'atLeast')">X ≥ x</button>
-            <button type="button" class="button" onclick="calculate('poisson', 'atMost')">X ≤ x</button>
-            <button type="button" class="button" onclick="calculate('poisson', 'range')">Range</button>
+            <button class="button" type="button" onclick="calculate('poisson', 'x')">X = x</button>
+            <button class="button" type="button" onclick="calculate('poisson', 'atLeast')">X ≥ x</button>
+            <button class="button" type="button" onclick="calculate('poisson', 'atMost')">X ≤ x</button>
+            <button class="button" type="button" onclick="calculate('poisson', 'range')">Range</button>
         </form>
     </div>
 
@@ -146,52 +146,56 @@
             }
 
             // Display the result
-            document.getElementById("result").innerHTML = "Result: " + result;
+            if (option === 'range') {
+                document.getElementById("result").innerHTML = "Probability within the range: " + result.toFixed(5);
+            } else {
+                document.getElementById("result").innerHTML = "Probability: " + result.toFixed(5);
+            }
         }
 
        // Binomial probability calculation function
-function binomialProbability(n, k, p, option, range) {
-    var result;
-    switch (option) {
-        case 'x':
-            result = nChooseK(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
-            break;
-        case 'atLeast':
-            result = binomialAtLeast(n, k, p);
-            break;
-        case 'atMost':
-            result = binomialAtMost(n, k, p);
-            break;
-        case 'range':
-            result = "Range calculation";
-            break;
-        default:
-            result = "Invalid option!";
-    }
-    return result.toFixed(5); // Round the result to 5 decimal places
-}
+        function binomialProbability(n, k, p, option, range) {
+            var result;
+            switch (option) {
+                case 'x':
+                    result = nChooseK(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
+                    break;
+                case 'atLeast':
+                    result = binomialAtLeast(n, k, p);
+                    break;
+                case 'atMost':
+                    result = binomialAtMost(n, k, p);
+                    break;
+                case 'range':
+                    result = "Range calculation";
+                    break;
+                default:
+                    result = "Invalid option!";
+            }
+            return result.toFixed(5); // Round the result to 5 decimal places
+        }
 
-// Poisson probability calculation function
-function poissonProbability(k, lambda, option, range) {
-    var result;
-    switch (option) {
-        case 'x':
-            result = poissonX(k, lambda);
-            break;
-        case 'atLeast':
-            result = poissonAtLeast(k, lambda);
-            break;
-        case 'atMost':
-            result = poissonAtMost(k, lambda);
-            break;
-        case 'range':
-            result = "Range calculation";
-            break;
-        default:
-            result = "Invalid option!";
-    }
-    return result.toFixed(5); // Round the result to 5 decimal places
-}
+        // Poisson probability calculation function
+        function poissonProbability(k, lambda, option, range) {
+            var result;
+            switch (option) {
+                case 'x':
+                    result = poissonX(k, lambda);
+                    break;
+                case 'atLeast':
+                    result = poissonAtLeast(k, lambda);
+                    break;
+                case 'atMost':
+                    result = poissonAtMost(k, lambda);
+                    break;
+                case 'range':
+                    result = "Range calculation";
+                    break;
+                default:
+                    result = "Invalid option!";
+            }
+            return result.toFixed(5); // Round the result to 5 decimal places
+        }
 
         // Binomial coefficient (n choose k) function
         function nChooseK(n, k) {
@@ -248,25 +252,6 @@ function poissonProbability(k, lambda, option, range) {
             }
             return result;
         }
-        // Additional binomial probability calculation function for range
-function binomialInRange(n, p, range) {
-    var bounds = range.split('-').map(Number);
-    var result = 0;
-    for (var x = bounds[0]; x <= bounds[1]; x++) {
-        result += nChooseK(n, x) * Math.pow(p, x) * Math.pow(1 - p, n - x);
-    }
-    return result;
-}
-
-// Additional Poisson probability calculation function for range
-function poissonInRange(lambda, range) {
-    var bounds = range.split('-').map(Number);
-    var result = 0;
-    for (var x = bounds[0]; x <= bounds[1]; x++) {
-        result += Math.exp(-lambda) * Math.pow(lambda, x) / factorial(x);
-    }
-    return result;
-}
     </script>
 </body>
 </html>
