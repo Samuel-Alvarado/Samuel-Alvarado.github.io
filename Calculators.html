@@ -175,18 +175,18 @@
             // Implement your binomial probability calculation logic here for the given option
             switch (option) {
                 case 'k':
-                    result = "Calculation for X = k"; // Implement your logic here
+                    result = nChooseK(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
                     break;
                 case 'atLeast':
-                    result = "Calculation for X ≥ k"; // Implement your logic here
+                    result = binomialAtLeast(n, k, p);
                     break;
                 case 'atMost':
-                    result = "Calculation for X ≤ k"; // Implement your logic here
+                    result = binomialAtMost(n, k, p);
                     break;
                 default:
                     result = "Invalid option!";
             }
-            return result;
+            return result.toFixed(5); // Round the result to 5 decimal places
         }
 
         function poissonProbability(k, lambda, option) {
@@ -194,23 +194,50 @@
             // Implement your Poisson probability calculation logic here for the given option
             switch (option) {
                 case 'k':
-                    result = "Calculation for X = k"; // Implement your logic here
+                    result = Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k);
                     break;
                 case 'atLeast':
-                    result = "Calculation for X ≥ k"; // Implement your logic here
+                    result = poissonAtLeast(k, lambda);
                     break;
                 case 'atMost':
-                    result = "Calculation for X ≤ k"; // Implement your logic here
+                    result = poissonAtMost(k, lambda);
                     break;
                 default:
                     result = "Invalid option!";
             }
+            return result.toFixed(5); // Round the result to 5 decimal places
+        }
+
+        function nChooseK(n, k) {
+            var result = factorial(n) / (factorial(k) * factorial(n - k));
             return result;
         }
 
-        function toggleRangeInput(type) {
-            var rangeInput = document.getElementById(type === 'binomial' ? "kRangeInput" : "kRangeInput_poisson");
-            rangeInput.style.display = rangeInput.style.display === "none" ? "block" : "none";
+        function factorial(n) {
+            if (n === 0 || n === 1) {
+                return 1;
+            }
+            var result = 1;
+            for (var i = 2; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+
+        function binomialAtLeast(n, k, p) {
+            var result = 0;
+            for (var x = k; x <= n; x++) {
+                result += nChooseK(n, x) * Math.pow(p, x) * Math.pow(1 - p, n - x);
+            }
+            return result;
+        }
+
+        function binomialAtMost(n, k, p) {
+            var result = 0;
+            for (var x = 0; x <= k; x++) {
+                result += nChooseK(n, x) * Math.pow(p, x) * Math.pow(1 - p, n - x);
+            }
+            return result;
         }
     </script>
 </body>
