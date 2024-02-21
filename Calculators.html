@@ -70,7 +70,7 @@
             <button type="button" class="button" onclick="calculate('binomial', 'k')">X = k</button>
             <button type="button" class="button" onclick="calculate('binomial', 'atLeast')">X ≥ k</button>
             <button type="button" class="button" onclick="calculate('binomial', 'atMost')">X ≤ k</button>
-            <button type="button" class="button" onclick="toggleRangeInput('binomial')">k1 ≤ X ≤ k2</button>
+            <button type="button" class="button" onclick="calculate('binomial', 'range')">k1 ≤ X ≤ k2</button>
         </form>
     </div>
 
@@ -90,7 +90,7 @@
             <button type="button" class="button" onclick="calculate('poisson', 'k')">X = k</button>
             <button type="button" class="button" onclick="calculate('poisson', 'atLeast')">X ≥ k</button>
             <button type="button" class="button" onclick="calculate('poisson', 'atMost')">X ≤ k</button>
-            <button type="button" class="button" onclick="toggleRangeInput('poisson')">k1 ≤ X ≤ k2</button>
+            <button type="button" class="button" onclick="calculate('poisson', 'range')">k1 ≤ X ≤ k2</button>
         </form>
     </div>
 
@@ -175,18 +175,18 @@
             // Implement your binomial probability calculation logic here for the given option
             switch (option) {
                 case 'k':
-                    result = nChooseK(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
+                    result = "Calculation for X = k"; // Implement your logic here
                     break;
                 case 'atLeast':
-                    result = binomialAtLeast(n, k, p);
+                    result = "Calculation for X ≥ k"; // Implement your logic here
                     break;
                 case 'atMost':
-                    result = binomialAtMost(n, k, p);
+                    result = "Calculation for X ≤ k"; // Implement your logic here
                     break;
                 default:
                     result = "Invalid option!";
             }
-            return result.toFixed(5); // Round the result to 5 decimal places
+            return result;
         }
 
         function poissonProbability(k, lambda, option) {
@@ -194,50 +194,23 @@
             // Implement your Poisson probability calculation logic here for the given option
             switch (option) {
                 case 'k':
-                    result = Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k);
+                    result = "Calculation for X = k"; // Implement your logic here
                     break;
                 case 'atLeast':
-                    result = poissonAtLeast(k, lambda);
+                    result = "Calculation for X ≥ k"; // Implement your logic here
                     break;
                 case 'atMost':
-                    result = poissonAtMost(k, lambda);
+                    result = "Calculation for X ≤ k"; // Implement your logic here
                     break;
                 default:
                     result = "Invalid option!";
             }
-            return result.toFixed(5); // Round the result to 5 decimal places
-        }
-
-        function nChooseK(n, k) {
-            var result = factorial(n) / (factorial(k) * factorial(n - k));
             return result;
         }
 
-        function factorial(n) {
-            if (n === 0 || n === 1) {
-                return 1;
-            }
-            var result = 1;
-            for (var i = 2; i <= n; i++) {
-                result *= i;
-            }
-            return result;
-        }
-
-        function binomialAtLeast(n, k, p) {
-            var result = 0;
-            for (var x = k; x <= n; x++) {
-                result += nChooseK(n, x) * Math.pow(p, x) * Math.pow(1 - p, n - x);
-            }
-            return result;
-        }
-
-        function binomialAtMost(n, k, p) {
-            var result = 0;
-            for (var x = 0; x <= k; x++) {
-                result += nChooseK(n, x) * Math.pow(p, x) * Math.pow(1 - p, n - x);
-            }
-            return result;
+        function toggleRangeInput(type) {
+            var rangeInput = document.getElementById(type === 'binomial' ? "kRangeInput" : "kRangeInput_poisson");
+            rangeInput.style.display = rangeInput.style.display === "none" ? "block" : "none";
         }
     </script>
 </body>
