@@ -65,6 +65,7 @@
             </div>
             <label for="p">Enter the value of p (in decimals):</label>
             <input type="number" id="binomial_p" name="p" step="0.01"><br><br>
+
             <!-- Buttons for different types of binomial calculations -->
             <button type="button" class="button" onclick="calculate('binomial', 'k')">X = k</button>
             <button type="button" class="button" onclick="calculate('binomial', 'atLeast')">X ≥ k</button>
@@ -73,7 +74,19 @@
         </form>
     </div>
 
-	@@ -90,7 +91,7 @@ <h3>Poisson Probability Calculator</h3>
+    <div id="poissonCalculator" class="calculator-form">
+        <h3>Poisson Probability Calculator</h3>
+        <form id="poissonForm" class="calculatorForm subpage">
+            <label for="k_poisson">Enter the value of k:</label>
+            <input type="number" id="k_poisson" name="k_poisson"><br><br>
+            <div id="kRangeInput_poisson" style="display: none;">
+                <label for="k2_poisson">Enter the value of k2:</label>
+                <input type="number" id="k2_poisson" name="k2_poisson"><br><br>
+            </div>
+            <label for="lambda">Enter the value of λ:</label>
+            <input type="number" id="lambda" name="lambda" step="0.01"><br><br>
+
+            <!-- Buttons for different types of Poisson calculations -->
             <button type="button" class="button" onclick="calculate('poisson', 'k')">X = k</button>
             <button type="button" class="button" onclick="calculate('poisson', 'atLeast')">X ≥ k</button>
             <button type="button" class="button" onclick="calculate('poisson', 'atMost')">X ≤ k</button>
@@ -82,6 +95,7 @@
     </div>
 
     <div id="result"></div>
+
     <script>
         function toggleCalculator(type) {
             var calculatorForms = document.querySelectorAll(".calculator-form");
@@ -91,6 +105,7 @@
             document.getElementById(type + "Calculator").classList.add("active");
             document.getElementById("result").innerHTML = ""; // Clear previous result
         }
+
         function calculate(type, option) {
             var n, k, p, lambda, k2;
             if (type === 'binomial') {
@@ -103,6 +118,7 @@
                 lambda = parseFloat(document.getElementById("lambda").value);
                 k2 = parseFloat(document.getElementById("k2_poisson").value);
             }
+
             var result;
             switch (option) {
                 case 'k':
@@ -120,8 +136,10 @@
                 default:
                     result = "Invalid option!";
             }
+
             document.getElementById("result").innerHTML = "Result: " + result;
         }
+
         function calculateProbability(type, option, k, p, lambda) {
             var result;
             switch (type) {
@@ -136,6 +154,7 @@
             }
             return result;
         }
+
         function calculateRangeProbability(type, k1, k2, p, lambda) {
             var result;
             switch (type) {
@@ -150,6 +169,7 @@
             }
             return result;
         }
+
         function binomialProbability(k, p, option) {
             var result;
             // Implement your binomial probability calculation logic here for the given option
@@ -168,6 +188,7 @@
             }
             return result;
         }
+
         function poissonProbability(k, lambda, option) {
             var result;
             // Implement your Poisson probability calculation logic here for the given option
@@ -186,6 +207,7 @@
             }
             return result;
         }
+
         function toggleRangeInput(type) {
             var rangeInput = document.getElementById(type === 'binomial' ? "kRangeInput" : "kRangeInput_poisson");
             rangeInput.style.display = rangeInput.style.display === "none" ? "block" : "none";
