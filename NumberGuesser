@@ -1,58 +1,69 @@
-<h1>Number Guessing Game</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+</head>
+<body>
+    <h1>Number Guessing Game</h1>
     <p>Press the button to start the game:</p>
 
     <button onclick="startGame()">Start Game</button>
-  <script>
-    function startGame() {
-        let minLimit = parseInt(prompt("Enter the minimum range: "));
-        let maxLimit = parseInt(prompt("Enter the maximum range: "));
-        let min = minLimit;
-        let max = maxLimit;
-        let guess = 0;
-        let correctGuess = false; // Variable to track if the correct guess is made
+    
+    <script>
+        function startGame() {
+            let minLimit = parseInt(prompt("Enter the minimum range: "));
+            let maxLimit = parseInt(prompt("Enter the maximum range: "));
+            let min = minLimit;
+            let max = maxLimit;
+            let guess = 0;
+            let correctGuess = false; // Variable to track if the correct guess is made
 
-        // Create elements dynamically
-        let instructions = document.createElement("p");
-        instructions.innerHTML = `Think of a number between ${minLimit} and ${maxLimit}.`;
-        document.body.appendChild(instructions);
+            // Create elements dynamically
+            let instructions = document.createElement("p");
+            instructions.innerHTML = `Think of a number between ${minLimit} and ${maxLimit}.`;
+            document.body.appendChild(instructions);
 
-        function makeGuess() {
-            if (min <= max && !correctGuess) {
-                guess = Math.floor(Math.random() * (max - min + 1) + min);
-                alert("My guess is: " + guess);
+            function makeGuess() {
+                if (min <= max && !correctGuess) {
+                    guess = Math.floor(Math.random() * (max - min + 1) + min);
+                    alert("My guess is: " + guess);
 
-                let userResponse = prompt("Is it correct? (Type 'correct', 'up', or 'down')");
+                    let userResponse = prompt("Is it correct? (Type 'correct', 'up', or 'down')");
 
-                while (userResponse !== "correct" && userResponse !== "up" && userResponse !== "down") {
-                    userResponse = prompt("Invalid input. Type 'correct', 'up', or 'down'.");
-                }
-
-                if (userResponse === "up") {
-                    min = guess + 1;
-                    if (min >= maxLimit) {
-                        min = maxLimit;
+                    while (userResponse !== "correct" && userResponse !== "up" && userResponse !== "down") {
+                        userResponse = prompt("Invalid input. Type 'correct', 'up', or 'down'.");
                     }
-                } else if (userResponse === "down") {
-                    max = guess - 1;
-                    if (max <= minLimit) {
-                        max = minLimit;
+
+                    if (userResponse === "up") {
+                        min = guess + 1;
+                        if (min >= maxLimit) {
+                            min = maxLimit;
+                        }
+                    } else if (userResponse === "down") {
+                        max = guess - 1;
+                        if (max <= minLimit) {
+                            max = minLimit;
+                        }
+                    } else {
+                        alert("I guessed it! The number is: " + guess);
+                        correctGuess = true; // Set correctGuess to true when the correct answer is found
+                        instructions.remove(); // Remove the range instructions after the correct guess
+                    }
+
+                    // Make next guess automatically if correct answer is not found
+                    if (!correctGuess) {
+                        makeGuess();
                     }
                 } else {
-                    alert("I guessed it! The number is: " + guess);
-                    correctGuess = true; // Set correctGuess to true when the correct answer is found
-                    instructions.remove(); // Remove the range instructions after the correct guess
+                    alert("Invalid action. Please try again.");
                 }
-
-                // Make next guess automatically if correct answer is not found
-                if (!correctGuess) {
-                    makeGuess();
-                }
-            } else {
-                alert("Invalid action. Please try again.");
             }
-        }
 
-        // Start the guessing game
-        makeGuess();
-    }
-</script>
+            // Start the guessing game
+            makeGuess();
+        }
+    </script>
+</body>
+</html>
