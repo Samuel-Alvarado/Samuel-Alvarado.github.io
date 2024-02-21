@@ -55,8 +55,8 @@
     <h2>Calculator</h2>
     <div id="calculator">
         <!-- Buttons for different types of probability calculations -->
-        <button onclick="toggleCalculator('binomial')">Binomial Probability</button>
-        <button onclick="toggleCalculator('poisson')">Poisson Probability</button>
+        <button class="button" onclick="toggleCalculator('binomial')">Binomial Probability</button>
+        <button class="button" onclick="toggleCalculator('poisson')">Poisson Probability</button>
     </div>
 
     <!-- Combined Calculator form -->
@@ -73,10 +73,10 @@
             <input type="number" id="binomial_p" name="p" step="0.01"><br><br>
 
             <!-- Buttons for different types of binomial calculations -->
-            <button type="button" onclick="calculate('binomial', 'x')">X = x</button>
-            <button type="button" onclick="calculate('binomial', 'atLeast')">X ≥ x</button>
-            <button type="button" onclick="calculate('binomial', 'atMost')">X ≤ x</button>
-            <button type="button" onclick="calculate('binomial', 'range')">Range</button>
+            <button type="button" class="button" onclick="calculate('binomial', 'x')">X = x</button>
+            <button type="button" class="button" onclick="calculate('binomial', 'atLeast')">X ≥ x</button>
+            <button type="button" class="button" onclick="calculate('binomial', 'atMost')">X ≤ x</button>
+            <button type="button" class="button" onclick="calculate('binomial', 'range')">Range</button>
         </form>
     </div>
 
@@ -91,10 +91,10 @@
             <input type="number" id="lambda" name="lambda" step="0.01"><br><br>
 
             <!-- Buttons for different types of Poisson calculations -->
-            <button type="button" onclick="calculate('poisson', 'x')">X = x</button>
-            <button type="button" onclick="calculate('poisson', 'atLeast')">X ≥ x</button>
-            <button type="button" onclick="calculate('poisson', 'atMost')">X ≤ x</button>
-            <button type="button" onclick="calculate('poisson', 'range')">Range</button>
+            <button type="button" class="button" onclick="calculate('poisson', 'x')">X = x</button>
+            <button type="button" class="button" onclick="calculate('poisson', 'atLeast')">X ≥ x</button>
+            <button type="button" class="button" onclick="calculate('poisson', 'atMost')">X ≤ x</button>
+            <button type="button" class="button" onclick="calculate('poisson', 'range')">Range</button>
         </form>
     </div>
 
@@ -146,7 +146,7 @@
             }
 
             // Display the result
-            document.getElementById("result").innerHTML = result;
+            document.getElementById("result").innerHTML = "Result: " + result;
         }
 
        // Binomial probability calculation function
