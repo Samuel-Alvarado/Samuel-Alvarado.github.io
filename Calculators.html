@@ -96,122 +96,188 @@
 
     <div id="result"></div>
 
-    <script>
-        function toggleCalculator(type) {
-            var calculatorForms = document.querySelectorAll(".calculator-form");
-            for (var i = 0; i < calculatorForms.length; i++) {
-                calculatorForms[i].classList.remove("active");
-            }
-            document.getElementById(type + "Calculator").classList.add("active");
-            document.getElementById("result").innerHTML = ""; // Clear previous result
+<script>
+    function toggleCalculator(type) {
+        var calculatorForms = document.querySelectorAll(".calculator-form");
+        for (var i = 0; i < calculatorForms.length; i++) {
+            calculatorForms[i].classList.remove("active");
+        }
+        document.getElementById(type + "Calculator").classList.add("active");
+        document.getElementById("result").innerHTML = ""; // Clear previous result
+    }
+
+    function calculate(type, option) {
+        var n, k, p, lambda, k2;
+        if (type === 'binomial') {
+            n = parseFloat(document.getElementById("binomial_n").value);
+            k = parseFloat(document.getElementById("binomial_k").value);
+            p = parseFloat(document.getElementById("binomial_p").value);
+            k2 = parseFloat(document.getElementById("binomial_k2").value);
+        } else {
+            k = parseFloat(document.getElementById("k_poisson").value);
+            lambda = parseFloat(document.getElementById("lambda").value);
+            k2 = parseFloat(document.getElementById("k2_poisson").value);
         }
 
-        function calculate(type, option) {
-            var n, k, p, lambda, k2;
-            if (type === 'binomial') {
-                n = parseFloat(document.getElementById("binomial_n").value);
-                k = parseFloat(document.getElementById("binomial_k").value);
-                p = parseFloat(document.getElementById("binomial_p").value);
-                k2 = parseFloat(document.getElementById("binomial_k2").value);
-            } else {
-                k = parseFloat(document.getElementById("k_poisson").value);
-                lambda = parseFloat(document.getElementById("lambda").value);
-                k2 = parseFloat(document.getElementById("k2_poisson").value);
-            }
-
-            var result;
-            switch (option) {
-                case 'k':
-                    result = calculateProbability(type, 'k', k, p, lambda);
-                    break;
-                case 'atLeast':
-                    result = calculateProbability(type, 'atLeast', k, p, lambda);
-                    break;
-                case 'atMost':
-                    result = calculateProbability(type, 'atMost', k, p, lambda);
-                    break;
-                case 'range':
-                    result = calculateRangeProbability(type, k, k2, p, lambda);
-                    break;
-                default:
-                    result = "Invalid option!";
-            }
-
-            document.getElementById("result").innerHTML = "Result: " + result;
+        var result;
+        switch (option) {
+            case 'k':
+                result = calculateProbability(type, 'k', k, p, lambda);
+                break;
+            case 'atLeast':
+                result = calculateProbability(type, 'atLeast', k, p, lambda);
+                break;
+            case 'atMost':
+                result = calculateProbability(type, 'atMost', k, p, lambda);
+                break;
+            case 'range':
+                result = calculateRangeProbability(type, k, k2, p, lambda);
+                break;
+            default:
+                result = "Invalid option!";
         }
 
-        function calculateProbability(type, option, k, p, lambda) {
-            var result;
-            switch (type) {
-                case 'binomial':
-                    result = binomialProbability(k, p, option);
-                    break;
-                case 'poisson':
-                    result = poissonProbability(k, lambda, option);
-                    break;
-                default:
-                    result = "Invalid type!";
-            }
-            return result;
-        }
+        document.getElementById("result").innerHTML = "Result: " + result;
+    }
 
-        function calculateRangeProbability(type, k1, k2, p, lambda) {
-            var result;
-            switch (type) {
-                case 'binomial':
-                    result = "Calculation for k1 ≤ X ≤ k2"; // Implement your logic here
-                    break;
-                case 'poisson':
-                    result = "Calculation for k1 ≤ X ≤ k2"; // Implement your logic here
-                    break;
-                default:
-                    result = "Invalid option!";
-            }
-            return result;
+    function calculateProbability(type, option, k, p, lambda) {
+        var result;
+        switch (type) {
+            case 'binomial':
+                result = binomialProbability(k, p, option, n);
+                break;
+            case 'poisson':
+                result = poissonProbability(k, lambda, option);
+                break;
+            default:
+                result = "Invalid type!";
         }
+        return result;
+    }
 
-        function binomialProbability(k, p, option) {
-            var result;
-            // Implement your binomial probability calculation logic here for the given option
-            switch (option) {
-                case 'k':
-                    result = "Calculation for X = k"; // Implement your logic here
-                    break;
-                case 'atLeast':
-                    result = "Calculation for X ≥ k"; // Implement your logic here
-                    break;
-                case 'atMost':
-                    result = "Calculation for X ≤ k"; // Implement your logic here
-                    break;
-                default:
-                    result = "Invalid option!";
-            }
-            return result;
+    function calculateRangeProbability(type, k1, k2, p, lambda) {
+        var result;
+        switch (type) {
+            case 'binomial':
+                result = binomialInRange(k1, k2, p, n);
+                break;
+            case 'poisson':
+                result = poissonInRange(k1, k2, lambda);
+                break;
+            default:
+                result = "Invalid option!";
         }
+        return result;
+    }
 
-        function poissonProbability(k, lambda, option) {
-            var result;
-            // Implement your Poisson probability calculation logic here for the given option
-            switch (option) {
-                case 'k':
-                    result = "Calculation for X = k"; // Implement your logic here
-                    break;
-                case 'atLeast':
-                    result = "Calculation for X ≥ k"; // Implement your logic here
-                    break;
-                case 'atMost':
-                    result = "Calculation for X ≤ k"; // Implement your logic here
-                    break;
-                default:
-                    result = "Invalid option!";
-            }
-            return result;
+    function binomialProbability(k, p, option, n) {
+        var result;
+        switch (option) {
+            case 'k':
+                result = nChooseK(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
+                break;
+            case 'atLeast':
+                result = binomialAtLeast(n, k, p);
+                break;
+            case 'atMost':
+                result = binomialAtMost(n, k, p);
+                break;
+            default:
+                result = "Invalid option!";
         }
+        return result.toFixed(5); // Round the result to 5 decimal places
+    }
 
-        function toggleRangeInput(type) {
-            var rangeInput = document.getElementById(type === 'binomial' ? "kRangeInput" : "kRangeInput_poisson");
-            rangeInput.style.display = rangeInput.style.display === "none" ? "block" : "none";
+    function poissonProbability(k, lambda, option) {
+        var result;
+        switch (option) {
+            case 'k':
+                result = poissonX(k, lambda);
+                break;
+            case 'atLeast':
+                result = poissonAtLeast(k, lambda);
+                break;
+            case 'atMost':
+                result = poissonAtMost(k, lambda);
+                break;
+            default:
+                result = "Invalid option!";
         }
-    </script>
+        return result.toFixed(5); // Round the result to 5 decimal places
+    }
+
+    function toggleRangeInput(type) {
+        var rangeInput = document.getElementById(type === 'binomial' ? "kRangeInput" : "kRangeInput_poisson");
+        rangeInput.style.display = rangeInput.style.display === "none" ? "block" : "none";
+    }
+
+    function nChooseK(n, k) {
+        var result = factorial(n) / (factorial(k) * factorial(n - k));
+        return result;
+    }
+
+    function factorial(n) {
+        if (n === 0 || n === 1) {
+            return 1;
+        }
+        var result = 1;
+        for (var i = 2; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+
+    function binomialAtLeast(n, k, p) {
+        var result = 0;
+        for (var x = k; x <= n; x++) {
+            result += nChooseK(n, x) * Math.pow(p, x) * Math.pow(1 - p, n - x);
+        }
+        return result;
+    }
+
+    function binomialAtMost(n, k, p) {
+        var result = 0;
+        for (var x = 0; x <= k; x++) {
+            result += nChooseK(n, x) * Math.pow(p, x) * Math.pow(1 - p, n - x);
+        }
+        return result;
+    }
+
+    function binomialInRange(k1, k2, p, n) {
+        var result = 0;
+        for (var x = k1; x <= k2; x++) {
+            result += nChooseK(n, x) * Math.pow(p, x) * Math.pow(1 - p, n - x);
+        }
+        return result.toFixed(5); // Round the result to 5 decimal places
+    }
+
+    function poissonX(k, lambda) {
+        return Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k);
+    }
+
+    function poissonAtLeast(k, lambda) {
+        var result = 0;
+        for (var x = 0; x <= k; x++) {
+            result += Math.exp(-lambda) * Math.pow(lambda, x) / factorial(x);
+        }
+        return result.toFixed(5); // Round the result to 5 decimal places
+    }
+
+    function poissonAtMost(k, lambda) {
+        var result = 0;
+        for (var x = k; x >= 0; x--) {
+            result += Math.exp(-lambda) * Math.pow(lambda, x) / factorial(x);
+        }
+        return result.toFixed(5); // Round the result to 5 decimal places
+    }
+
+    function poissonInRange(k1, k2, lambda) {
+        var result = 0;
+        for (var x = k1; x <= k2; x++) {
+            result += Math.exp(-lambda) * Math.pow(lambda, x) / factorial(x);
+        }
+        return result.toFixed(5); // Round the result to 5 decimal places
+    }
+</script>
 </body>
 </html>
