@@ -187,44 +187,6 @@ function poissonProbability(k, lambda, option) {
     return result;
 }
 
-       function binomialProbability(k, p, option) {
-    var result;
-    // Implement your binomial probability calculation logic here for the given option
-    switch (option) {
-        case 'k':
-            result = calculateBinomialX(k, p);
-            break;
-        case 'atLeast':
-            result = calculateBinomialAtLeast(k, p);
-            break;
-        case 'atMost':
-            result = calculateBinomialAtMost(k, p);
-            break;
-        default:
-            result = "Invalid option!";
-    }
-    return result;
-}
-
-function poissonProbability(k, lambda, option) {
-    var result;
-    // Implement your Poisson probability calculation logic here for the given option
-    switch (option) {
-        case 'k':
-            result = calculatePoissonX(k, lambda);
-            break;
-        case 'atLeast':
-            result = calculatePoissonAtLeast(k, lambda);
-            break;
-        case 'atMost':
-            result = calculatePoissonAtMost(k, lambda);
-            break;
-        default:
-            result = "Invalid option!";
-    }
-    return result;
-}
-
         function toggleRangeInput(type) {
             var rangeInput = document.getElementById(type === 'binomial' ? "kRangeInput" : "kRangeInput_poisson");
             rangeInput.style.display = rangeInput.style.display === "none" ? "block" : "none";
