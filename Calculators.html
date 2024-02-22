@@ -97,15 +97,6 @@
     <div id="result"></div>
 
 <script>
-    function toggleCalculator(type) {
-        var calculatorForms = document.querySelectorAll(".calculator-form");
-        for (var i = 0; i < calculatorForms.length; i++) {
-            calculatorForms[i].classList.remove("active");
-        }
-        document.getElementById(type + "Calculator").classList.add("active");
-        document.getElementById("result").innerHTML = ""; // Clear previous result
-    }
-
     function calculate(type, option) {
         var n, k, p, lambda, k2;
         if (type === 'binomial') {
@@ -122,16 +113,16 @@
         var result;
         switch (option) {
             case 'k':
-                result = calculateProbability(type, 'k', k, p, lambda);
+                result = calculateProbability(type, 'k', k, p, lambda, n);
                 break;
             case 'atLeast':
-                result = calculateProbability(type, 'atLeast', k, p, lambda);
+                result = calculateProbability(type, 'atLeast', k, p, lambda, n);
                 break;
             case 'atMost':
-                result = calculateProbability(type, 'atMost', k, p, lambda);
+                result = calculateProbability(type, 'atMost', k, p, lambda, n);
                 break;
             case 'range':
-                result = calculateRangeProbability(type, k, k2, p, lambda);
+                result = calculateRangeProbability(type, k, k2, p, lambda, n);
                 break;
             default:
                 result = "Invalid option!";
@@ -140,7 +131,7 @@
         document.getElementById("result").innerHTML = "Result: " + result;
     }
 
-    function calculateProbability(type, option, k, p, lambda) {
+    function calculateProbability(type, option, k, p, lambda, n) {
         var result;
         switch (type) {
             case 'binomial':
@@ -155,7 +146,15 @@
         return result;
     }
 
-    function calculateRangeProbability(type, k1, k2, p, lambda) {
+    function toggleRangeInput(type) {
+        var rangeInput = document.getElementById(type === 'binomial' ? "kRangeInput" : "kRangeInput_poisson");
+        rangeInput.style.display = rangeInput.style.display === "none" ? "block" : "none";
+
+        // Trigger calculation when range input is toggled
+        calculate(type, 'range');
+    }
+
+    function calculateRangeProbability(type, k1, k2, p, lambda, n) {
         var result;
         switch (type) {
             case 'binomial':
@@ -206,11 +205,6 @@
         return result.toFixed(5); // Round the result to 5 decimal places
     }
 
-    function toggleRangeInput(type) {
-        var rangeInput = document.getElementById(type === 'binomial' ? "kRangeInput" : "kRangeInput_poisson");
-        rangeInput.style.display = rangeInput.style.display === "none" ? "block" : "none";
-    }
-
     function nChooseK(n, k) {
         var result = factorial(n) / (factorial(k) * factorial(n - k));
         return result;
@@ -232,7 +226,7 @@
         for (var x = k; x <= n; x++) {
             result += nChooseK(n, x) * Math.pow(p, x) * Math.pow(1 - p, n - x);
         }
-        return result;
+        return result.toFixed(5); // Round the result to 5 decimal places
     }
 
     function binomialAtMost(n, k, p) {
@@ -240,7 +234,7 @@
         for (var x = 0; x <= k; x++) {
             result += nChooseK(n, x) * Math.pow(p, x) * Math.pow(1 - p, n - x);
         }
-        return result;
+        return result.toFixed(5); // Round the result to 5 decimal places
     }
 
     function binomialInRange(k1, k2, p, n) {
