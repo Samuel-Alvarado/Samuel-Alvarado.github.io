@@ -9,8 +9,8 @@
             background-color: #333; /* Dark background color */
             color: white; /* White text color */
             font-family: Arial, sans-serif; /* Font style */
-            position: relative; /* Set position relative for positioning the text */
             text-align: center; /* Center-align text */
+            position: relative; /* Set position relative for positioning the text */
         }
 
         .container {
@@ -46,13 +46,14 @@
             left: 10px; /* Set left margin */
             color: white; /* Text color */
         }
-
-        .text-container {
-            text-align: left; /* Align text to the left */
-            margin-left: auto; /* Align left margin to the left */
-            margin-right: auto; /* Align right margin to the right */
-            max-width: 600px; /* Set maximum width for better readability */
-        }
+        .left-align {
+    text-align: left; /* Align text to the left */
+    margin-left: 10px; /* Add left margin for better spacing */
+    width: 200px; /* Set fixed width */
+    display: inline-block; /* Make it inline-block to apply width */
+    white-space: pre-wrap; /* Preserve line breaks */
+    overflow-wrap: break-word; /* Break words to prevent overflow */
+}
     </style>
 </head>
 <body>
@@ -62,13 +63,11 @@
         <a href="Calculators.html" class="button">Probability Calculator</a>
         <a href="NumberGuesser.html" class="button">Number Guesser</a>
     </div>
-    <div class="text-container">
-        <p>Welcome to my webpage! My name is Samuel Alvarado, and I'm a senior student in high school. 
-        I'm excited to share with you this project, where I've been learning about web development. 
-        Since I'm still in the process of learning HTML, most of the code you see here has been generated with the help of ChatGPT. 
-        I hope you find the content interesting and enjoyable! 
-        <a href="https://github.com/Samuel-Alvarado/Samuel-Alvarado.github.io">GitHub Link</a></p>
-    </div>
+    <p class="left-align">Welcome to my webpage! My name is Samuel Alvarado, and I'm a senior student in high school. 
+    I'm excited to share with you this project, where I've been learning about web development. 
+    Since I'm still in the process of learning HTML, most of the code you see here has been generated with the help of ChatGPT. 
+    I hope you find the content interesting and enjoyable! 
+    <a href="https://github.com/Samuel-Alvarado/Samuel-Alvarado.github.io">GitHub Link</a></p>
     <div class="footer">
     </div>
 </body>
