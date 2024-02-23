@@ -97,6 +97,65 @@
     <div id="result"></div>
 
 <script>
+     // Function to calculate factorial
+    function factorial(num) {
+        if (num === 0 || num === 1)
+            return 1;
+        var result = 1;
+        for (var i = 2; i <= num; i++) {
+            result *= i;
+        }
+        return result;
+    }
+
+    // Function to calculate binomial probability
+    function calculateBinomialProbability(k, n, p) {
+        // Calculate binomial coefficient (n choose k)
+        var combination = factorial(n) / (factorial(k) * factorial(n - k));
+        // Calculate binomial probability
+        var result = combination * Math.pow(p, k) * Math.pow(1 - p, n - k);
+        // Round result to 4 decimal places
+        return result.toFixed(4);
+    }
+
+    function calculateBinomialAtLeast(k, n, p) {
+        var sumProbAtLeastK = 0;
+        for (var i = k; i <= n; i++) {
+            sumProbAtLeastK += parseFloat(calculateBinomialProbability(i, n, p));
+        }
+        return sumProbAtLeastK.toFixed(4);
+    }
+
+    function calculateBinomialAtMost(k, n, p) {
+        var sumProbAtMostK = 0;
+        for (var j = 0; j <= k; j++) {
+            sumProbAtMostK += parseFloat(calculateBinomialProbability(j, n, p));
+        }
+        return sumProbAtMostK.toFixed(4);
+    }
+
+    function calculatePoissonProbability(k, lambda) {
+        // Calculate Poisson probability
+        var result = (Math.exp(-lambda) * Math.pow(lambda, k)) / factorial(k);
+        // Round result to 5 decimal places
+        return result.toFixed(5);
+    }
+
+    function calculatePoissonAtLeast(k, lambda) {
+        var cumulativeProbability = 0;
+        for (var i = 0; i <= k; i++) {
+            cumulativeProbability += (Math.exp(-lambda) * Math.pow(lambda, i)) / factorial(i);
+        }
+        return (1 - cumulativeProbability).toFixed(5);
+    }
+
+    function calculatePoissonAtMost(k, lambda) {
+        var cumulativeProbability = 0;
+        for (var j = 0; j <= k; j++) {
+            cumulativeProbability += (Math.exp(-lambda) * Math.pow(lambda, j)) / factorial(j);
+        }
+        return cumulativeProbability.toFixed(5);
+    }
     function toggleCalculator(type) {
         var calculatorForms = document.querySelectorAll(".calculator-form");
         for (var i = 0; i < calculatorForms.length; i++) {
