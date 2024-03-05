@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turtle Graphics</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/turtlejs/0.2.0/turtle.min.js"></script>
+    <style>
+        body {
+            background-color: #333; /* Dark background color */
+            color: white; /* White text color */
+            font-family: Arial, sans-serif; /* Font style */
+            text-align: center; /* Center-align text */
+            margin-top: 30px; /* Adjust top margin for better appearance */
+        }
+    </style>
 </head>
 <body>
     <h1>Turtle Graphics</h1>
@@ -17,6 +26,15 @@
             var canvas = document.getElementById("myCanvas");
             var turtle = new Turtle(canvas);
 
+            // Clear the canvas
+            turtle.clear();
+
+            // Set turtle properties
+            turtle.penColor = "blue";
+            turtle.fillColor = "yellow";
+            turtle.penSize = 2;
+            turtle.speed = 7;
+
             // Draw the circles
             for (var i = 0; i < 2; i++) {
                 turtle.penup();
@@ -24,6 +42,7 @@
                 turtle.pendown();
                 turtle.circle(radius);
             }
+        }
     </script>
 </body>
 </html>
