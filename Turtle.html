@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turtle Graphics</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turtlejs/0.2.0/turtle.min.js"></script>
+</head>
+<body>
+    <h1>Turtle Graphics</h1>
+    <canvas id="myCanvas" width="400" height="400" style="border:1px solid black;"></canvas><br>
+    <button onclick="drawCircles()">Draw Circles</button>
+
+    <script>
+        function drawCircles() {
+            var radius = parseFloat(prompt("Enter the radius of the circles:"));
+            var canvas = document.getElementById("myCanvas");
+            var turtle = new Turtle(canvas);
+
+            // Draw the circles
+            for (var i = 0; i < 2; i++) {
+                turtle.penup();
+                turtle.goto(radius * (2 * i + 1), 0);
+                turtle.pendown();
+                turtle.circle(radius);
+            }
+    </script>
+</body>
+</html>
