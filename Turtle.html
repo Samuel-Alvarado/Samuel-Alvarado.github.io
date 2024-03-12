@@ -23,11 +23,11 @@
 <body>
     <h1>Turtle Graphics</h1>
     <canvas id="myCanvas" width="400" height="400"></canvas><br>
-    <button onclick="drawRoute()">Draw Route</button>
+    <button onclick="drawCircles()">Draw Circles</button>
 
     <script>
-        function drawRoute() {
-            var route = prompt("Enter the route (e.g., 'FFRRLL'):").toUpperCase(); // Prompt user for the route
+        function drawCircles() {
+            var radius = parseFloat(prompt("Enter the radius of the circles:"));
             var canvas = document.getElementById("myCanvas");
             var turtle = new Turtle(canvas);
 
@@ -40,24 +40,16 @@
             turtle.penSize = 2;
             turtle.speed = 7;
 
-            var step = 20; // Adjust step size as needed
-
-            // Interpret route and move the turtle accordingly
-            for (var i = 0; i < route.length; i++) {
-                var direction = route[i];
-                if (direction === "F") {
-                    turtle.forward(step);
-                } else if (direction === "B") {
-                    turtle.backward(step);
-                } else if (direction === "R") {
-                    turtle.right(90);
-                } else if (direction === "L") {
-                    turtle.left(90);
-                } else if (direction === "U") {
-                    turtle.penup();
-                } else if (direction === "D") {
-                    turtle.pendown();
-                }
+            // Draw the circles
+            for (var i = 0; i < 2; i++) {
+                turtle.penup();
+                turtle.goto(radius * (2 * i + 1), 0);
+                turtle.pendown();
+                turtle.circle(radius);
+                turtle.circle(-radius);
+                turtle.penup();
+                turtle.forward(radius * 2);
+                turtle.pendown();
             }
         }
     </script>
