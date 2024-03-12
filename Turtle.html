@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turtle Graphics</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/turtlejs/0.2.0/turtle.min.js"></script>
     <style>
         body {
             background-color: #333; /* Dark background color */
@@ -13,9 +12,7 @@
             text-align: center; /* Center-align text */
             margin-top: 30px; /* Adjust top margin for better appearance */
         }
-        #myCanvas {
-            display: block;
-            margin: 0 auto; /* Center the canvas */
+        canvas {
             border: 1px solid black;
         }
     </style>
@@ -26,27 +23,69 @@
     <button onclick="drawCircles()">Draw Circles</button>
 
     <script>
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var turtle = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            angle: 0,
+            penDown: true,
+            radius: 20, // Default radius
+            color: "blue",
+            fillColor: "yellow",
+            penSize: 2,
+            speed: 7,
+            forward: function(distance) {
+                var newX = this.x + distance * Math.cos(this.angle);
+                var newY = this.y + distance * Math.sin(this.angle);
+                if (this.penDown) {
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(newX, newY);
+                    ctx.strokeStyle = this.color;
+                    ctx.lineWidth = this.penSize;
+                    ctx.stroke();
+                }
+                this.x = newX;
+                this.y = newY;
+            },
+            circle: function(radius) {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, Math.abs(radius), 0, 2 * Math.PI);
+                if (radius > 0) {
+                    ctx.strokeStyle = this.color;
+                } else {
+                    ctx.fillStyle = this.fillColor;
+                    ctx.fill();
+                }
+                ctx.lineWidth = this.penSize;
+                ctx.stroke();
+            },
+            penup: function() {
+                this.penDown = false;
+            },
+            pendown: function() {
+                this.penDown = true;
+            }
+        };
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
         function drawCircles() {
+            clearCanvas();
             var radius = parseFloat(prompt("Enter the radius of the circles:"));
-            var canvas = document.getElementById("myCanvas");
-            var turtle = new Turtle(canvas);
-
-            // Clear the canvas
-            turtle.clear();
-
-            // Set turtle properties
-            turtle.penColor = "blue";
-            turtle.fillColor = "yellow";
             turtle.penSize = 2;
             turtle.speed = 7;
+            turtle.color = "blue";
+            turtle.fillColor = "yellow";
 
-            // Draw the circles
             for (var i = 0; i < 2; i++) {
                 turtle.penup();
-                turtle.goto(radius * (2 * i + 1), 0);
+                turtle.forward(radius * (2 * i + 1));
                 turtle.pendown();
                 turtle.circle(radius);
-                turtle.circle(-radius);
                 turtle.penup();
                 turtle.forward(radius * 2);
                 turtle.pendown();
