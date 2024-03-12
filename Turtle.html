@@ -20,7 +20,8 @@
 <body>
     <h1>Turtle Graphics</h1>
     <canvas id="myCanvas" width="400" height="400"></canvas><br>
-    <button onclick="drawCircles()">Draw Circles</button>
+    <button onclick="runCommands()">Run Commands</button><br>
+    <textarea id="commands" rows="5" cols="50">F100 R90 F100 R90 F100 R90 F100</textarea>
 
     <script>
         var canvas = document.getElementById("myCanvas");
@@ -30,14 +31,12 @@
             y: canvas.height / 2,
             angle: 0,
             penDown: true,
-            radius: 20, // Default radius
             color: "blue",
-            fillColor: "yellow",
             penSize: 2,
             speed: 7,
             forward: function(distance) {
-                var newX = this.x + distance * Math.cos(this.angle);
-                var newY = this.y + distance * Math.sin(this.angle);
+                var newX = this.x + distance * Math.cos(this.angle * Math.PI / 180);
+                var newY = this.y + distance * Math.sin(this.angle * Math.PI / 180);
                 if (this.penDown) {
                     ctx.beginPath();
                     ctx.moveTo(this.x, this.y);
@@ -49,17 +48,8 @@
                 this.x = newX;
                 this.y = newY;
             },
-            circle: function(radius) {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, Math.abs(radius), 0, 2 * Math.PI);
-                if (radius > 0) {
-                    ctx.strokeStyle = this.color;
-                } else {
-                    ctx.fillStyle = this.fillColor;
-                    ctx.fill();
-                }
-                ctx.lineWidth = this.penSize;
-                ctx.stroke();
+            turn: function(angle) {
+                this.angle += angle;
             },
             penup: function() {
                 this.penDown = false;
@@ -73,22 +63,26 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
 
-        function drawCircles() {
+        function runCommands() {
             clearCanvas();
-            var radius = parseFloat(prompt("Enter the radius of the circles:"));
-            turtle.penSize = 2;
-            turtle.speed = 7;
-            turtle.color = "blue";
-            turtle.fillColor = "yellow";
-
-            for (var i = 0; i < 2; i++) {
-                turtle.penup();
-                turtle.forward(radius * (2 * i + 1));
-                turtle.pendown();
-                turtle.circle(radius);
-                turtle.penup();
-                turtle.forward(radius * 2);
-                turtle.pendown();
+            var commands = document.getElementById("commands").value.trim().split(/\s+/);
+            for (var i = 0; i < commands.length; i++) {
+                var command = commands[i].toUpperCase();
+                var value = parseFloat(commands[i + 1]);
+                if (command === "F") {
+                    turtle.forward(value);
+                } else if (command === "B") {
+                    turtle.forward(-value);
+                } else if (command === "R") {
+                    turtle.turn(value);
+                } else if (command === "L") {
+                    turtle.turn(-value);
+                } else if (command === "U") {
+                    turtle.penup();
+                } else if (command === "D") {
+                    turtle.pendown();
+                }
+                i += (value ? 1 : 0);
             }
         }
     </script>
