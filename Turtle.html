@@ -13,11 +13,16 @@
             text-align: center; /* Center-align text */
             margin-top: 30px; /* Adjust top margin for better appearance */
         }
+        #myCanvas {
+            display: block;
+            margin: 0 auto; /* Center the canvas */
+            border: 1px solid black;
+        }
     </style>
 </head>
 <body>
     <h1>Turtle Graphics</h1>
-    <canvas id="myCanvas" width="400" height="400" style="border:1px solid black;"></canvas><br>
+    <canvas id="myCanvas" width="400" height="400"></canvas><br>
     <button onclick="drawRoute()">Draw Route</button>
 
     <script>
@@ -35,15 +40,15 @@
             turtle.penSize = 2;
             turtle.speed = 7;
 
-            var radius = 50; // Default radius, you can adjust it as needed
+            var step = 20; // Adjust step size as needed
 
             // Interpret route and move the turtle accordingly
             for (var i = 0; i < route.length; i++) {
                 var direction = route[i];
                 if (direction === "F") {
-                    turtle.circle(radius);
+                    turtle.forward(step);
                 } else if (direction === "B") {
-                    turtle.circle(-radius);
+                    turtle.backward(step);
                 } else if (direction === "R") {
                     turtle.right(90);
                 } else if (direction === "L") {
